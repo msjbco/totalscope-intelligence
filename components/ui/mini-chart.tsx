@@ -1,0 +1,1 @@
+export function MiniChart({ values, tone = "cyan" }: { values: number[]; tone?: "cyan" | "amber" | "green" }) { return <div className={`mini-chart ${tone}`} aria-label="Trend chart">{values.map((value,index)=><i key={index} style={{height:`${value}%`}}/>)}</div> }

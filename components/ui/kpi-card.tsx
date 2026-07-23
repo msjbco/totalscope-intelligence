@@ -1,0 +1,2 @@
+import { MiniChart } from "./mini-chart";
+export function KpiCard({label,value,change,detail,values,tone="cyan"}:{label:string;value:string;change:string;detail:string;values:number[];tone?:"cyan"|"amber"|"green"}) { return <article className="card kpi-card"><div className="kpi-top"><span>{label}</span><button aria-label={`More options for ${label}`}>•••</button></div><div className="kpi-content"><div><strong>{value}</strong><p><em className={tone}>{change}</em> {detail}</p></div><MiniChart values={values} tone={tone}/></div></article> }

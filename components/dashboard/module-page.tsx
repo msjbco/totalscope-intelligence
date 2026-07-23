@@ -1,0 +1,10 @@
+import { DashboardShell } from "./shell";
+import { KpiCard } from "@/components/ui/kpi-card";
+import { SectionCard } from "@/components/ui/section-card";
+import { StatusPill } from "@/components/ui/status-pill";
+type Metric={label:string;value:string;change:string;detail:string;tone?:"cyan"|"amber"|"green"};
+type Row={name:string;detail:string;status:string;tone?:"neutral"|"green"|"amber"|"red"|"cyan";value:string};
+export function ModulePage({title,eyebrow,metrics,sectionTitle,rows,insight}:{title:string;eyebrow:string;metrics:Metric[];sectionTitle:string;rows:Row[];insight:string}) {
+ const charts=[[24,30,28,40,38,54,50,66,62,79],[45,38,52,48,64,58,70,75,68,84],[72,68,74,69,61,66,54,57,49,43],[30,42,38,55,49,62,71,67,82,88]];
+ return <DashboardShell title={title} eyebrow={eyebrow}><div className="kpi-grid">{metrics.map((m,i)=><KpiCard key={m.label} {...m} values={charts[i]}/>)}</div><div className="content-grid two-one"><SectionCard eyebrow="LIVE OPERATIONS" title={sectionTitle} action={<button className="text-button">View all →</button>}><div className="data-table">{rows.map((r,i)=><div className="data-row" key={r.name}><span className="row-index">{String(i+1).padStart(2,"0")}</span><div><b>{r.name}</b><small>{r.detail}</small></div><StatusPill tone={r.tone}>{r.status}</StatusPill><strong>{r.value}</strong><button aria-label={`Open ${r.name}`}>›</button></div>)}</div></SectionCard><div className="right-stack"><SectionCard eyebrow="TOTALSCOPE SIGNAL" title="Executive insight"><div className="insight-card"><span>✦</span><p>{insight}</p><button className="text-button">Open intelligence brief →</button></div></SectionCard><SectionCard eyebrow="RISK DISTRIBUTION" title="Portfolio mix"><div className="donut-wrap"><div className="donut"><span>1,284<small>ASSETS</small></span></div><div className="legend"><span><i className="cyan"/>Low risk <b>62%</b></span><span><i className="amber"/>Watch <b>25%</b></span><span><i className="red"/>Elevated <b>13%</b></span></div></div></SectionCard></div></div></DashboardShell>
+}
