@@ -7,6 +7,9 @@ This package defines the canonical information model for restoration estimating,
 ## Document map
 
 - [Canonical data model](canonical-data-model.md)
+- [Canonical source mapping matrix](canonical-source-mapping-matrix.md)
+- [Enterprise source field dictionary](source-field-dictionary.md)
+- [Data lineage examples](data-lineage-examples.md)
 - [Entity relationship diagram](entity-relationship-diagram.md)
 - [Roles and permissions](roles-and-permissions-model.md)
 - [Claims lifecycle and assignments](claims-lifecycle-and-assignments.md)
