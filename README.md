@@ -61,10 +61,22 @@ The Phase B canonical data, lifecycle, permission, provenance, financial, Stripe
 
 Observed-source audits and import-readiness findings are indexed in [docs/audits/README.md](docs/audits/README.md).
 
+### C1 live Q2 2026 vertical slice
+
+The application now supports explicit `demo` and `live` data modes. Demo mode uses visibly labeled synthetic fixtures. Live mode reads the canonical Supabase schema populated from the Git-ignored Q2 2026 Monday archive; live failures never substitute demo records.
+
+See [C1 Q2 2026 Live Vertical Slice](docs/architecture/c1-live-vertical-slice.md) for schema, importer, validation, environment, provenance, RLS, rerun/rollback, and Stripe-boundary details.
+
+```bash
+npm run validate:q2-2026-import
+```
+
+Production authentication is not implemented. Live routes require an explicit protected-local access switch and server-only Supabase credentials.
+
 ## Known production gaps
 
 - Login and Enterprise SSO are visual-only; production authentication and authorization are not implemented.
-- Data is in-memory and synthetic; there is no database, ingestion pipeline, customer data, or persistence.
+- Demo mode is in-memory and synthetic. Live mode requires the C1 Supabase migration, Q2 import, server-only credentials, and protected-local access gate.
 - Weather events are synthetic and are not live observations or forecasts.
 - Exports, scheduled reports, alerts, settings persistence, integrations, and notifications are disabled placeholders.
 - Billing, production monitoring, audit logging, and data-governance controls are not implemented.

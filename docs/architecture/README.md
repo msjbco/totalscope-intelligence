@@ -18,6 +18,7 @@ Real-source validation is indexed separately under [Source audits](../audits/REA
 - [Financial and revenue model](financial-and-revenue-model.md)
 - [Stripe reconciliation architecture](stripe-reconciliation-architecture.md)
 - [Archive import and provenance](archive-import-and-provenance.md)
+- [C1 Q2 2026 live vertical slice](c1-live-vertical-slice.md)
 - [KPI dependency catalog](kpi-dependency-catalog.md)
 - [Data quality framework](data-quality-framework.md)
 - [Knowledge and staff intelligence](knowledge-and-staff-intelligence-model.md)

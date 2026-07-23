@@ -44,3 +44,6 @@ next-env.d.ts
 
 # local source archives (never commit customer/source workbooks)
 /data/source/
+/.artifacts/
+/supabase/.branches/
+/supabase/.temp/

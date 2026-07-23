@@ -1,0 +1,1 @@
+export function LiveDataError({message}:{message:string}){return <section className="card live-error" role="alert"><small>LIVE DATA UNAVAILABLE</small><h2>The archive data could not be loaded.</h2><p>{message}</p><p>No synthetic records were substituted. Configure the server environment and complete the Q2 import.</p></section>}
