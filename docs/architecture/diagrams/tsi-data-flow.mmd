@@ -1,0 +1,54 @@
+flowchart LR
+  subgraph Sources
+    M[Monday archives]
+    S[Stripe reports]
+    H[Authorized manual facts]
+  end
+
+  subgraph Immutable_Ingestion[Immutable ingestion]
+    A[Artifact registry and hash]
+    R[Raw source records]
+    P[Parser and mapping version]
+  end
+
+  subgraph Control_Plane[Quality and control]
+    Q[Profiling and validation]
+    I[Issue and entity-resolution queue]
+    V[Reviewer decision and audit]
+  end
+
+  subgraph Canonical[Canonical tenant-scoped facts]
+    C[Claims, organizations, assignments]
+    F[Financials, invoices, charges]
+    X[Payments, allocations, refunds, disputes, fees]
+    K[Provenance links]
+  end
+
+  subgraph Intelligence
+    D[Versioned derived metrics]
+    O[Human observations]
+    B[Dashboards and cohort reporting]
+  end
+
+  M --> A
+  S --> A
+  H --> R
+  A --> R --> P --> Q
+  Q -->|valid| C
+  Q -->|valid| F
+  Q -->|valid| X
+  Q -->|conflict| I --> V
+  V --> C
+  V --> F
+  V --> X
+  R --> K
+  K --> C
+  K --> F
+  K --> X
+  C --> D
+  F --> D
+  X --> D
+  C --> O
+  D --> O
+  D --> B
+  O --> B

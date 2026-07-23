@@ -55,6 +55,10 @@ npm run build
 
 The included `netlify.toml` configures the official Next.js adapter for Netlify.
 
+## Architecture documentation
+
+The Phase B canonical data, lifecycle, permission, provenance, financial, Stripe reconciliation, KPI, quality, and implementation blueprint is indexed in [docs/architecture/README.md](docs/architecture/README.md). This package is documentation only and does not add a production schema, credentials, authentication, or runtime integration.
+
 ## Known production gaps
 
 - Login and Enterprise SSO are visual-only; production authentication and authorization are not implemented.

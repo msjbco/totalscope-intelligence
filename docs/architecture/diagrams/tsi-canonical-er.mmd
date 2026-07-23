@@ -1,0 +1,41 @@
+erDiagram
+  TENANT ||--o{ ORGANIZATION : owns
+  ORGANIZATION o|--o{ ORGANIZATION : parent_of
+  ORGANIZATION ||--o{ BRANCH : has
+  TENANT ||--o{ USER_ACCOUNT : has
+  BRANCH o|--o{ USER_ACCOUNT : scopes
+  USER_ACCOUNT ||--o{ PLATFORM_ROLE_GRANT : receives
+  USER_ACCOUNT ||--o{ BUSINESS_FUNCTION_GRANT : performs
+
+  TENANT ||--o{ CLAIM_FILE : owns
+  ORGANIZATION ||--o{ CLAIM_FILE : client
+  BRANCH ||--o{ CLAIM_FILE : submits
+  CLAIM_FILE ||--o{ FILE_STATUS_HISTORY : preserves
+  CLAIM_FILE ||--o{ FILE_ASSIGNMENT : has
+  USER_ACCOUNT ||--o{ FILE_ASSIGNMENT : assignee
+  CLAIM_FILE }o--o| CARRIER : handled_by
+  CARRIER ||--o{ ADJUSTER : employs
+  CLAIM_FILE ||--o{ FILE_ADJUSTER_HISTORY : tracks
+  ADJUSTER ||--o{ FILE_ADJUSTER_HISTORY : assigned
+  CLAIM_FILE ||--o| FILE_FINANCIAL : measures
+
+  CLAIM_FILE ||--o{ INVOICE : billed_by
+  INVOICE ||--o{ INVOICE_CHARGE : contains
+  PAYMENT ||--o{ PAYMENT_ALLOCATION : supplies
+  INVOICE ||--o{ PAYMENT_ALLOCATION : receives
+  PAYMENT ||--o{ REFUND : has
+  PAYMENT ||--o{ DISPUTE : has
+  PAYMENT ||--o{ PROCESSOR_FEE : incurs
+  STRIPE_IMPORT_JOB ||--o{ PAYMENT : imports
+  PAYMENT o|--o{ RECONCILIATION_ISSUE : raises
+  INVOICE o|--o{ RECONCILIATION_ISSUE : concerns
+
+  ARCHIVE_IMPORT_JOB ||--o{ SOURCE_RECORD : contains
+  SOURCE_RECORD ||--o{ PROVENANCE_LINK : supports
+  CLAIM_FILE ||--o{ PROVENANCE_LINK : traces
+  INVOICE ||--o{ PROVENANCE_LINK : traces
+
+  WEATHER_EVENT ||--o{ FILE_WEATHER_MATCH : suggests
+  CLAIM_FILE ||--o{ FILE_WEATHER_MATCH : matches
+  KNOWLEDGE_ITEM ||--o{ KNOWLEDGE_REVISION : versions
+  KNOWLEDGE_ITEM ||--o{ KNOWLEDGE_EVIDENCE : cites
