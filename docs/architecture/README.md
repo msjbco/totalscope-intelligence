@@ -4,6 +4,8 @@ Status: architecture blueprint; no production schema or runtime implementation.
 
 This package defines the canonical information model for restoration estimating, claim handling, financial reconciliation, archival provenance, and future knowledge intelligence.
 
+Real-source validation is indexed separately under [Source audits](../audits/README.md).
+
 ## Document map
 
 - [Canonical data model](canonical-data-model.md)

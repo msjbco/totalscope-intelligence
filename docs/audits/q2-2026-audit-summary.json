@@ -1,0 +1,2422 @@
+{
+  "additional_rcv_relationship": {
+    "exact_match_count": 213,
+    "mismatch_count": 0,
+    "missing_component_count": 1,
+    "tolerance_match_count": 0
+  },
+  "archive_row_structure": {
+    "claim_rows": 214,
+    "classification_reconciles": true,
+    "physical_data_rows": 1721,
+    "repeated_subitem_header_rows": 148,
+    "subitem_detail_rows": 1359
+  },
+  "audit_version": "c0-q2-2026-v1",
+  "blocking_decisions": [
+    "Define authoritative meaning of Assigned, Closed Date, Date of Status Change, and duplicate CH Update columns.",
+    "Approve service-type derivation or add an explicit source field; CH presence is insufficient authority.",
+    "Resolve archive Item ID coverage and updates whose Item ID is outside the archive sheet.",
+    "Approve financial authority among Initial Ins. RCV, Requested RCV, Current Ins. RCV, Updated RCV, and Additional Secured $.",
+    "Select source timezone for Monday text timestamps before UTC conversion."
+  ],
+  "c1_acceptance_counts": {
+    "archive_claim_rows": 214,
+    "archive_items_without_updates": 0,
+    "archive_nonblank_item_ids": 214,
+    "archive_physical_data_rows": 1721,
+    "archive_repeated_subitem_header_rows": 148,
+    "archive_subitem_detail_rows": 1359,
+    "archive_unique_item_ids": 214,
+    "orphan_update_rows": 58,
+    "updates_nonblank_post_ids": 5957,
+    "updates_rows": 5957,
+    "updates_unique_item_ids": 270,
+    "updates_unique_post_ids": 5957
+  },
+  "c1_recommended_scope": [
+    "import jobs and immutable workbook/sheet/row provenance",
+    "claims with nonblank Item ID (auto generated)",
+    "raw and normalized current status with unknown-value quarantine",
+    "organization/contractor and carrier alias candidates with review queues",
+    "source date fields with raw value preservation",
+    "updates linked by Item ID; orphaned updates quarantined",
+    "financial facts with field-level availability and validation outcomes",
+    "identity/assignment candidates without automatic person merging"
+  ],
+  "claim_field_coverage": {
+    "Additional Secured $": {
+      "coverage_percent": 100.0,
+      "distinct_count": 214,
+      "nonblank_count": 214
+    },
+    "Adj. Extension": {
+      "coverage_percent": 64.02,
+      "distinct_count": 126,
+      "nonblank_count": 137
+    },
+    "Adj. Phone": {
+      "coverage_percent": 92.99,
+      "distinct_count": 116,
+      "nonblank_count": 199
+    },
+    "Adjuster Email": {
+      "coverage_percent": 42.06,
+      "distinct_count": 65,
+      "nonblank_count": 90
+    },
+    "Adjuster Name": {
+      "coverage_percent": 97.66,
+      "distinct_count": 199,
+      "nonblank_count": 209
+    },
+    "Admin": {
+      "coverage_percent": 100.0,
+      "distinct_count": 5,
+      "nonblank_count": 214
+    },
+    "Admin Notes/Next action": {
+      "coverage_percent": 50.47,
+      "distinct_count": 79,
+      "nonblank_count": 108
+    },
+    "Admin Update": {
+      "coverage_percent": 91.59,
+      "distinct_count": 70,
+      "nonblank_count": 196
+    },
+    "Assigned": {
+      "coverage_percent": 100.0,
+      "distinct_count": 88,
+      "nonblank_count": 214
+    },
+    "CALL RECAP - SUBITEM": {
+      "coverage_percent": 64.02,
+      "distinct_count": 137,
+      "nonblank_count": 137
+    },
+    "CH": {
+      "coverage_percent": 100.0,
+      "distinct_count": 3,
+      "nonblank_count": 214
+    },
+    "CH Update": {
+      "coverage_percent": 100.0,
+      "distinct_count": 63,
+      "nonblank_count": 214
+    },
+    "CH Update__2": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "CRM": {
+      "coverage_percent": 52.8,
+      "distinct_count": 48,
+      "nonblank_count": 113
+    },
+    "CRM Email": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "CRM FILE #": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "CTR Rep": {
+      "coverage_percent": 47.2,
+      "distinct_count": 38,
+      "nonblank_count": 101
+    },
+    "CTR Rep Email": {
+      "coverage_percent": 7.48,
+      "distinct_count": 14,
+      "nonblank_count": 16
+    },
+    "Claim Health": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Claim Number": {
+      "coverage_percent": 100.0,
+      "distinct_count": 214,
+      "nonblank_count": 214
+    },
+    "Client % Fee": {
+      "coverage_percent": 99.07,
+      "distinct_count": 3,
+      "nonblank_count": 212
+    },
+    "Client Fee": {
+      "coverage_percent": 100.0,
+      "distinct_count": 213,
+      "nonblank_count": 214
+    },
+    "Closed Date": {
+      "coverage_percent": 100.0,
+      "distinct_count": 56,
+      "nonblank_count": 214
+    },
+    "Company Cam link": {
+      "coverage_percent": 15.42,
+      "distinct_count": 33,
+      "nonblank_count": 33
+    },
+    "Contractor": {
+      "coverage_percent": 100.0,
+      "distinct_count": 50,
+      "nonblank_count": 214
+    },
+    "Current Ins. RCV": {
+      "coverage_percent": 100.0,
+      "distinct_count": 214,
+      "nonblank_count": 214
+    },
+    "Date of Loss": {
+      "coverage_percent": 78.5,
+      "distinct_count": 85,
+      "nonblank_count": 168
+    },
+    "Date of Status Change": {
+      "coverage_percent": 100.0,
+      "distinct_count": 26,
+      "nonblank_count": 214
+    },
+    "Days Opened": {
+      "coverage_percent": 100.0,
+      "distinct_count": 88,
+      "nonblank_count": 214
+    },
+    "Days in Status": {
+      "coverage_percent": 100.0,
+      "distinct_count": 26,
+      "nonblank_count": 214
+    },
+    "Est. Sent": {
+      "coverage_percent": 85.51,
+      "distinct_count": 76,
+      "nonblank_count": 183
+    },
+    "HO Email": {
+      "coverage_percent": 9.81,
+      "distinct_count": 21,
+      "nonblank_count": 21
+    },
+    "Homeowner Name": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Initial Ins. RCV": {
+      "coverage_percent": 99.53,
+      "distinct_count": 203,
+      "nonblank_count": 213
+    },
+    "Insurance Carrier": {
+      "coverage_percent": 100.0,
+      "distinct_count": 50,
+      "nonblank_count": 214
+    },
+    "Invoicing Notes": {
+      "coverage_percent": 13.55,
+      "distinct_count": 23,
+      "nonblank_count": 29
+    },
+    "Item ID (auto generated)": {
+      "coverage_percent": 100.0,
+      "distinct_count": 214,
+      "nonblank_count": 214
+    },
+    "LAST UPDATE": {
+      "coverage_percent": 64.49,
+      "distinct_count": 40,
+      "nonblank_count": 138
+    },
+    "Last AI Update": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Main Claims Email": {
+      "coverage_percent": 89.72,
+      "distinct_count": 53,
+      "nonblank_count": 192
+    },
+    "Name": {
+      "coverage_percent": 100.0,
+      "distinct_count": 214,
+      "nonblank_count": 214
+    },
+    "New Files": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Next Action": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Next Step Date": {
+      "coverage_percent": 53.27,
+      "distinct_count": 36,
+      "nonblank_count": 114
+    },
+    "Original Files": {
+      "coverage_percent": 99.53,
+      "distinct_count": 213,
+      "nonblank_count": 213
+    },
+    "Outstanding": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Percentage Increase": {
+      "coverage_percent": 100.0,
+      "distinct_count": 78,
+      "nonblank_count": 214
+    },
+    "Priority": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Property Address": {
+      "coverage_percent": 26.64,
+      "distinct_count": 57,
+      "nonblank_count": 57
+    },
+    "Reopen - Supplement": {
+      "coverage_percent": 4.67,
+      "distinct_count": 9,
+      "nonblank_count": 10
+    },
+    "Requested RCV": {
+      "coverage_percent": 99.07,
+      "distinct_count": 212,
+      "nonblank_count": 212
+    },
+    "Run Review": {
+      "coverage_percent": 100.0,
+      "distinct_count": 1,
+      "nonblank_count": 214
+    },
+    "Status": {
+      "coverage_percent": 100.0,
+      "distinct_count": 2,
+      "nonblank_count": 214
+    },
+    "Subitems Date Completed": {
+      "coverage_percent": 64.49,
+      "distinct_count": 137,
+      "nonblank_count": 138
+    },
+    "Subtasks": {
+      "coverage_percent": 69.16,
+      "distinct_count": 146,
+      "nonblank_count": 148
+    },
+    "Support": {
+      "coverage_percent": 100.0,
+      "distinct_count": 1,
+      "nonblank_count": 214
+    },
+    "TS File": {
+      "coverage_percent": 99.53,
+      "distinct_count": 213,
+      "nonblank_count": 213
+    },
+    "Timeline - End": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Timeline - Start": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "Updated RCV": {
+      "coverage_percent": 0.0,
+      "distinct_count": 0,
+      "nonblank_count": 0
+    },
+    "link to [Dup]Claim Handling": {
+      "coverage_percent": 100.0,
+      "distinct_count": 1,
+      "nonblank_count": 214
+    }
+  },
+  "column_counts": {
+    "archive q2 2026": 61,
+    "updates": 11
+  },
+  "data_quality_scores": {
+    "completeness": {
+      "grade": "C",
+      "score": 68
+    },
+    "consistency": {
+      "grade": "B",
+      "score": 76
+    },
+    "financial_reliability": {
+      "grade": "C",
+      "score": 62
+    },
+    "identity_reliability": {
+      "grade": "C",
+      "score": 66
+    },
+    "lifecycle_reliability": {
+      "grade": "C",
+      "score": 70
+    },
+    "referential_integrity": {
+      "grade": "A",
+      "score": 90
+    },
+    "timeliness": {
+      "grade": "C",
+      "score": 72
+    },
+    "uniqueness": {
+      "grade": "A",
+      "score": 95
+    },
+    "validity": {
+      "grade": "B",
+      "score": 82
+    }
+  },
+  "date_audit": {
+    "Admin Update": {
+      "earliest": "2025-08-19T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-06-24T00:00:00",
+      "nonblank_count": 196,
+      "parsed_count": 196,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "Assigned": {
+      "earliest": "2025-04-08T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-06-15T00:00:00",
+      "nonblank_count": 214,
+      "parsed_count": 214,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "CH Update": {
+      "earliest": "2026-03-18T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-06-30T00:00:00",
+      "nonblank_count": 214,
+      "parsed_count": 214,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "CH Update__2": {
+      "earliest": null,
+      "invalid_count": 0,
+      "latest": null,
+      "nonblank_count": 0,
+      "parsed_count": 0,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Closed Date": {
+      "earliest": "2026-04-01T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-06-30T00:00:00",
+      "nonblank_count": 214,
+      "parsed_count": 214,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "Date of Loss": {
+      "earliest": "2021-08-19T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-05-18T00:00:00",
+      "nonblank_count": 168,
+      "parsed_count": 168,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "Date of Status Change": {
+      "earliest": "2026-04-08T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-07-15T00:00:00",
+      "nonblank_count": 214,
+      "parsed_count": 214,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "Est. Sent": {
+      "earliest": "2025-08-06T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-06-18T00:00:00",
+      "nonblank_count": 183,
+      "parsed_count": 183,
+      "representation": "Excel date cells / date-only",
+      "timezone_present": false
+    },
+    "LAST UPDATE": {
+      "earliest": "2026-05-01T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-07-15T00:00:00",
+      "nonblank_count": 138,
+      "parsed_count": 138,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Last AI Update": {
+      "earliest": null,
+      "invalid_count": 0,
+      "latest": null,
+      "nonblank_count": 0,
+      "parsed_count": 0,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Next Step Date": {
+      "earliest": "2026-05-11T00:00:00",
+      "invalid_count": 0,
+      "latest": "2026-07-03T00:00:00",
+      "nonblank_count": 114,
+      "parsed_count": 114,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Subitems Date Completed": {
+      "earliest": "2026-05-01T00:00:00",
+      "invalid_count": 131,
+      "latest": "2026-07-15T00:00:00",
+      "nonblank_count": 138,
+      "parsed_count": 7,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Timeline - End": {
+      "earliest": null,
+      "invalid_count": 0,
+      "latest": null,
+      "nonblank_count": 0,
+      "parsed_count": 0,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Timeline - Start": {
+      "earliest": null,
+      "invalid_count": 0,
+      "latest": null,
+      "nonblank_count": 0,
+      "parsed_count": 0,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "Updated RCV": {
+      "earliest": null,
+      "invalid_count": 0,
+      "latest": null,
+      "nonblank_count": 0,
+      "parsed_count": 0,
+      "representation": "mixed or text",
+      "timezone_present": false
+    },
+    "updates.Created At": {
+      "earliest": "2025-04-08T20:16:10",
+      "invalid_count": 0,
+      "latest": "2026-07-15T15:30:18",
+      "nonblank_count": 5957,
+      "parsed_count": 5957,
+      "representation": "day/month-name/year 12-hour text timestamp",
+      "timezone_present": false
+    }
+  },
+  "duplicate_counts": {
+    "archive_duplicate_id_rows": 0,
+    "archive_exact_duplicate_rows": 147,
+    "claim_exact_duplicate_rows": 0,
+    "updates_duplicate_body_rows": 398,
+    "updates_duplicate_post_id_rows": 0
+  },
+  "financial_coverage": {
+    "Additional Secured $": {
+      "coverage_percent": 100.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 67258.58,
+      "median": 3533.35,
+      "minimum": 9.75,
+      "negative_count": 0,
+      "nonblank_count": 214,
+      "representation": "numeric",
+      "zero_count": 0
+    },
+    "Client % Fee": {
+      "coverage_percent": 99.07,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 10.0,
+      "median": 10.0,
+      "minimum": 2.5,
+      "negative_count": 0,
+      "nonblank_count": 212,
+      "representation": "numeric",
+      "zero_count": 0
+    },
+    "Client Fee": {
+      "coverage_percent": 100.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 6725.86,
+      "median": 282.96500000000003,
+      "minimum": 0.0,
+      "negative_count": 0,
+      "nonblank_count": 214,
+      "representation": "numeric",
+      "zero_count": 2
+    },
+    "Current Ins. RCV": {
+      "coverage_percent": 100.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 149865.91,
+      "median": 22601.440000000002,
+      "minimum": 3027.84,
+      "negative_count": 0,
+      "nonblank_count": 214,
+      "representation": "numeric",
+      "zero_count": 0
+    },
+    "Initial Ins. RCV": {
+      "coverage_percent": 99.53,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 127587.49,
+      "median": 18179.95,
+      "minimum": 0.0,
+      "negative_count": 0,
+      "nonblank_count": 213,
+      "representation": "numeric",
+      "zero_count": 11
+    },
+    "Outstanding": {
+      "coverage_percent": 0.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": null,
+      "median": null,
+      "minimum": null,
+      "negative_count": 0,
+      "nonblank_count": 0,
+      "representation": "numeric",
+      "zero_count": 0
+    },
+    "Percentage Increase": {
+      "coverage_percent": 100.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 4510.0,
+      "median": 17.0,
+      "minimum": 0.0,
+      "negative_count": 0,
+      "nonblank_count": 214,
+      "representation": "numeric",
+      "zero_count": 13
+    },
+    "Requested RCV": {
+      "coverage_percent": 99.07,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": 344892.41,
+      "median": 26454.64,
+      "minimum": 8387.51,
+      "negative_count": 0,
+      "nonblank_count": 212,
+      "representation": "numeric",
+      "zero_count": 0
+    },
+    "Updated RCV": {
+      "coverage_percent": 0.0,
+      "currency_assumption": "USD inferred from field semantics; workbook has no row-level currency code",
+      "malformed_count": 0,
+      "maximum": null,
+      "median": null,
+      "minimum": null,
+      "negative_count": 0,
+      "nonblank_count": 0,
+      "representation": "numeric",
+      "zero_count": 0
+    }
+  },
+  "identity_profiles": {
+    "Adjuster Email": {
+      "blank_count": 124,
+      "case_or_punctuation_variant_count": 1,
+      "distinct_raw_count": 65,
+      "nonblank_count": 90,
+      "normalization_collision_groups": 1,
+      "normalized_distinct_count": 64
+    },
+    "Adjuster Name": {
+      "blank_count": 5,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 199,
+      "nonblank_count": 209,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 199
+    },
+    "Admin": {
+      "blank_count": 0,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 5,
+      "nonblank_count": 214,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 5
+    },
+    "CH": {
+      "blank_count": 0,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 3,
+      "nonblank_count": 214,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 3
+    },
+    "CTR Rep": {
+      "blank_count": 113,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 38,
+      "nonblank_count": 101,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 38
+    },
+    "CTR Rep Email": {
+      "blank_count": 198,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 14,
+      "nonblank_count": 16,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 14
+    },
+    "Contractor": {
+      "blank_count": 0,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 50,
+      "nonblank_count": 214,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 50
+    },
+    "Insurance Carrier": {
+      "blank_count": 0,
+      "case_or_punctuation_variant_count": 0,
+      "distinct_raw_count": 50,
+      "nonblank_count": 214,
+      "normalization_collision_groups": 0,
+      "normalized_distinct_count": 50
+    }
+  },
+  "lifecycle_findings": {
+    "assigned_after_closed_count": 0,
+    "explicit_property_type_present": false,
+    "explicit_service_type_present": false,
+    "explicit_status_history_present": false,
+    "lifecycle_dates_are_field_snapshots_not_event_history": true,
+    "reopened_indicator_field": "Reopen - Supplement"
+  },
+  "mapping_summary": {
+    "canonical_field_families_not_present": 21,
+    "source_field_classifications": {
+      "Ambiguous": 7,
+      "Exact Match": 15,
+      "Future / Not Applicable": 1,
+      "Match After Normalization": 14,
+      "Partial Match": 29,
+      "Unmapped Source Field": 6
+    },
+    "source_field_total": 72
+  },
+  "orphan_counts": {
+    "archive_items_without_updates": 0,
+    "unique_unknown_archive_item_ids": 56,
+    "update_rows_with_unknown_archive_item_id": 58
+  },
+  "primary_key_findings": {
+    "archive_candidate": "archive q2 2026.Item ID (auto generated)",
+    "archive_duplicate_id_rows": 0,
+    "archive_missing_ids": 1507,
+    "archive_nonblank_ids": 214,
+    "updates_candidate": "updates.Post ID",
+    "updates_duplicate_post_id_rows": 0,
+    "updates_missing_post_ids": 0,
+    "updates_nonblank_post_ids": 5957
+  },
+  "property_type_findings": {
+    "classification": "Canonical Field Not Present",
+    "explicit_field_present": false
+  },
+  "row_counts": {
+    "archive q2 2026": 1721,
+    "updates": 5957
+  },
+  "service_type_counts": {
+    "claim_handling_inferred_from_CH_presence": 214,
+    "estimate_only_inferred_from_blank_CH": 0
+  },
+  "service_type_method": "No explicit service-type column. Counts are inference candidates based only on CH presence and must not be imported as facts.",
+  "source_file": "Archive_Q2_2026_1784837413 (1).xlsx",
+  "source_path": "data/source/Archive_Q2_2026_1784837413 (1).xlsx",
+  "source_sha256": "8c25be883993f821e6deff6a6aa787d30ee9d794b5cf7fe73a41b58c67f06323",
+  "status_counts": {
+    "Closed": 37,
+    "Complete": 177
+  },
+  "updates_audit": {
+    "blank_update_bodies": 12,
+    "earliest_update": "2025-04-08T20:16:10",
+    "keyword_mention_rows": {
+      "adjuster": 874,
+      "assignment": 68,
+      "carrier": 1150,
+      "invoice": 333,
+      "payment": 316,
+      "settlement": 28,
+      "status": 1577
+    },
+    "latest_update": "2026-07-15T15:30:18",
+    "system_generated_or_unattributed_estimate": 381,
+    "total_rows": 5957,
+    "unique_archive_item_ids_referenced": 270,
+    "unique_update_authors_including_blank_system": 20
+  },
+  "workbook_opened_successfully": true,
+  "worksheet_profiles": [
+    {
+      "blank_data_row_count": 0,
+      "data_row_count": 1721,
+      "duplicate_column_names": [
+        "CH Update"
+      ],
+      "fields": [
+        {
+          "column_position": 1,
+          "coverage_percent": 21.03,
+          "distinct_count": 215,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 362,
+          "sensitivity": "PII",
+          "source_column": "Name",
+          "static_value_count": 362,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 2,
+          "coverage_percent": 96.11,
+          "distinct_count": 615,
+          "example_values": [
+            "CTR Update, Note to CTR in TS",
+            "Name",
+            "Note to CTR in TS"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1654,
+          "sensitivity": "Operational",
+          "source_column": "Subtasks",
+          "static_value_count": 1654,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 3,
+          "coverage_percent": 83.44,
+          "distinct_count": 226,
+          "example_values": [
+            "TotalScope - https://www.totalscope2024.com/dashboard/client-details/file-pc-76028-jessica-1013-j...",
+            "TS File - https://totalscope2024.com/dashboard/client-details/file-pc-76033-crestwo-1235-cxi-file...",
+            "TotalScope - https://www.totalscope2024.com/dashboard/client-details/file-pc-76028-meadowv-828-tp..."
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1436,
+          "sensitivity": "Operational",
+          "source_column": "TS File",
+          "static_value_count": 1436,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 4,
+          "coverage_percent": 94.6,
+          "distinct_count": 15,
+          "example_values": [
+            "Complete",
+            "Complete",
+            "Closed"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Complete",
+            "Closed",
+            "People",
+            "Krista Estes",
+            "Michelle Averitt",
+            "TS",
+            "Tish Escalante",
+            "Eric Dowling",
+            "TS, Tish Escalante",
+            "Taylor Gholson LeMasters",
+            "Michelle Averitt, Tish Escalante",
+            "Marc DeBellis",
+            "Kimberly Green",
+            "Michelle Averitt, Taylor Gholson LeMasters",
+            "TS, Michelle Averitt"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1628,
+          "sensitivity": "Operational",
+          "source_column": "Status",
+          "static_value_count": 1628,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 5,
+          "coverage_percent": 85.53,
+          "distinct_count": 132,
+          "example_values": [
+            "2026-03-13T00:00:00",
+            "2026-03-27T00:00:00",
+            "2026-03-13T00:00:00"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-07-15T00:00:00",
+          "minimum": "2025-04-08T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 1472,
+          "sensitivity": "Operational",
+          "source_column": "Assigned",
+          "static_value_count": 1472,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 6,
+          "coverage_percent": 45.96,
+          "distinct_count": 91,
+          "example_values": [
+            "3B Roofing",
+            "3B Roofing",
+            "3B Roofing"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 1,
+          "nonblank_count": 791,
+          "sensitivity": "Operational",
+          "source_column": "Contractor",
+          "static_value_count": 791,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 7,
+          "coverage_percent": 62.0,
+          "distinct_count": 5,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1067,
+          "sensitivity": "PII",
+          "source_column": "CH",
+          "static_value_count": 1067,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 8,
+          "coverage_percent": 74.67,
+          "distinct_count": 937,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-06-30T00:00:00",
+          "minimum": "2026-03-18T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 1285,
+          "sensitivity": "PII",
+          "source_column": "CH Update",
+          "static_value_count": 1285,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 9,
+          "coverage_percent": 21.03,
+          "distinct_count": 205,
+          "example_values": [
+            "16947.55",
+            "24709.35",
+            "14197.33"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 148,
+          "maximum": 4323347.28,
+          "minimum": 0.0,
+          "mixed_type_count": 1,
+          "nonblank_count": 362,
+          "sensitivity": "Financial",
+          "source_column": "Initial Ins. RCV",
+          "static_value_count": 362,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 10,
+          "coverage_percent": 99.88,
+          "distinct_count": 1572,
+          "example_values": [
+            "22993.94",
+            "37321.2",
+            "26402.4"
+          ],
+          "formula_count": 0,
+          "inferred_type": "numeric_text",
+          "likely_enum_values": [],
+          "malformed_count": 148,
+          "maximum": 18099605056.0,
+          "minimum": 8387.51,
+          "mixed_type_count": 2,
+          "nonblank_count": 1719,
+          "sensitivity": "Financial",
+          "source_column": "Requested RCV",
+          "static_value_count": 1719,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 11,
+          "coverage_percent": 12.49,
+          "distinct_count": 215,
+          "example_values": [
+            "18158.84",
+            "29289.86",
+            "15931.65"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": 5814597.93,
+          "minimum": 3027.84,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Financial",
+          "source_column": "Current Ins. RCV",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 12,
+          "coverage_percent": 12.49,
+          "distinct_count": 215,
+          "example_values": [
+            "1211.29",
+            "4580.51",
+            "1734.32"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Operational",
+          "source_column": "Additional Secured $",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 13,
+          "coverage_percent": 12.49,
+          "distinct_count": 79,
+          "example_values": [
+            "7",
+            "19",
+            "12"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Operational",
+          "source_column": "Percentage Increase",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 14,
+          "coverage_percent": 12.38,
+          "distinct_count": 4,
+          "example_values": [
+            "5",
+            "10",
+            "5"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [
+            "5",
+            "10",
+            "2.5",
+            "undefined"
+          ],
+          "malformed_count": 1,
+          "maximum": 10.0,
+          "minimum": 2.5,
+          "mixed_type_count": 1,
+          "nonblank_count": 213,
+          "sensitivity": "Financial",
+          "source_column": "Client % Fee",
+          "static_value_count": 213,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 15,
+          "coverage_percent": 12.49,
+          "distinct_count": 214,
+          "example_values": [
+            "60.56",
+            "458.05",
+            "86.72"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": 108015.3,
+          "minimum": 0.0,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Financial",
+          "source_column": "Client Fee",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 16,
+          "coverage_percent": 9.82,
+          "distinct_count": 86,
+          "example_values": [
+            "2025-03-08T00:00:00",
+            "2025-04-01T00:00:00",
+            "2025-05-16T00:00:00"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-05-18T00:00:00",
+          "minimum": "2021-08-19T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 169,
+          "sensitivity": "Operational",
+          "source_column": "Date of Loss",
+          "static_value_count": 169,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 17,
+          "coverage_percent": 10.69,
+          "distinct_count": 77,
+          "example_values": [
+            "2026-04-22T00:00:00",
+            "2026-04-22T00:00:00",
+            "2026-04-24T00:00:00"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-06-18T00:00:00",
+          "minimum": "2025-08-06T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 184,
+          "sensitivity": "Operational",
+          "source_column": "Est. Sent",
+          "static_value_count": 184,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 18,
+          "coverage_percent": 8.02,
+          "distinct_count": 137,
+          "example_values": [
+            "2026-05-11, 2026-05-11",
+            "2026-05-08, 2026-05-13, 2026-05-13",
+            "2026-05-15, 2026-05-21, 2026-05-19"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-07-15T00:00:00",
+          "minimum": "2026-05-01T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 138,
+          "sensitivity": "Operational",
+          "source_column": "Subitems Date Completed",
+          "static_value_count": 138,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 19,
+          "coverage_percent": 12.49,
+          "distinct_count": 27,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-07-15T00:00:00",
+          "minimum": "2026-04-08T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 215,
+          "sensitivity": "PII",
+          "source_column": "Date of Status Change",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 20,
+          "coverage_percent": 6.57,
+          "distinct_count": 48,
+          "example_values": [
+            "CRM - https://app.jobnimbus.com/login.aspx",
+            "JobNimbus - https://www.jobnimbus.com",
+            "CRM - https://app.jobnimbus.com/login.aspx"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 113,
+          "sensitivity": "Operational",
+          "source_column": "CRM",
+          "static_value_count": 113,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 21,
+          "coverage_percent": 1.92,
+          "distinct_count": 33,
+          "example_values": [
+            "https://app.companycam.com/galleries/HMLDfEwd",
+            "https://app.companycam.com/timeline/EwJFnNXpzKycb6sB",
+            "https://app.companycam.com/galleries/7qGG28Cs"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 33,
+          "sensitivity": "Operational",
+          "source_column": "Company Cam link",
+          "static_value_count": 33,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 22,
+          "coverage_percent": 1.22,
+          "distinct_count": 21,
+          "example_values": [
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 21,
+          "sensitivity": "PII",
+          "source_column": "HO Email",
+          "static_value_count": 21,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 23,
+          "coverage_percent": 12.43,
+          "distinct_count": 50,
+          "example_values": [
+            "State Farm",
+            "Mercury Insurance",
+            "Allstate"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "Insurance Carrier",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 24,
+          "coverage_percent": 12.38,
+          "distinct_count": 213,
+          "example_values": [
+            "https://totalscope-company.monday.com/protected_static/18317522/resources/2828210209/Powell3BRoof...",
+            "https://totalscope-company.monday.com/protected_static/18317522/resources/2861118097/MercuryAWS_O...",
+            "https://totalscope-company.monday.com/protected_static/18317522/resources/2828221897/Guttery3BRoo..."
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 213,
+          "sensitivity": "Operational",
+          "source_column": "Original Files",
+          "static_value_count": 213,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 25,
+          "coverage_percent": 12.43,
+          "distinct_count": 5,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "PII",
+          "source_column": "Admin",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 26,
+          "coverage_percent": 11.45,
+          "distinct_count": 71,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-06-24T00:00:00",
+          "minimum": "2025-08-19T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 197,
+          "sensitivity": "PII",
+          "source_column": "Admin Update",
+          "static_value_count": 197,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 27,
+          "coverage_percent": 12.43,
+          "distinct_count": 214,
+          "example_values": [
+            "4387S971L",
+            "TXHO-00043252",
+            "0791037807"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "Claim Number",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 28,
+          "coverage_percent": 12.14,
+          "distinct_count": 199,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 209,
+          "sensitivity": "PII",
+          "source_column": "Adjuster Name",
+          "static_value_count": 209,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 29,
+          "coverage_percent": 11.56,
+          "distinct_count": 116,
+          "example_values": [
+            "[REDACTED PHONE]",
+            "[REDACTED PHONE]",
+            "[REDACTED PHONE]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 199,
+          "sensitivity": "PII",
+          "source_column": "Adj. Phone",
+          "static_value_count": 199,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 30,
+          "coverage_percent": 7.96,
+          "distinct_count": 126,
+          "example_values": [
+            "61597",
+            "44524",
+            "5148"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 137,
+          "sensitivity": "Operational",
+          "source_column": "Adj. Extension",
+          "static_value_count": 137,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 31,
+          "coverage_percent": 5.23,
+          "distinct_count": 65,
+          "example_values": [
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 90,
+          "sensitivity": "PII",
+          "source_column": "Adjuster Email",
+          "static_value_count": 90,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 32,
+          "coverage_percent": 11.16,
+          "distinct_count": 53,
+          "example_values": [
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 192,
+          "sensitivity": "PII",
+          "source_column": "Main Claims Email",
+          "static_value_count": 192,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 33,
+          "coverage_percent": 5.87,
+          "distinct_count": 38,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 101,
+          "sensitivity": "PII",
+          "source_column": "CTR Rep",
+          "static_value_count": 101,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 34,
+          "coverage_percent": 0.93,
+          "distinct_count": 14,
+          "example_values": [
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]",
+            "[REDACTED EMAIL]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 16,
+          "sensitivity": "PII",
+          "source_column": "CTR Rep Email",
+          "static_value_count": 16,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 35,
+          "coverage_percent": 12.49,
+          "distinct_count": 57,
+          "example_values": [
+            "2026-04-27T00:00:00",
+            "2026-04-08T00:00:00",
+            "2026-05-15T00:00:00"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-06-30T00:00:00",
+          "minimum": "2026-04-01T00:00:00",
+          "mixed_type_count": 1,
+          "nonblank_count": 215,
+          "sensitivity": "Operational",
+          "source_column": "Closed Date",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 36,
+          "coverage_percent": 0.64,
+          "distinct_count": 10,
+          "example_values": [
+            "2026-04-01T00:00:00",
+            "2026-04-14T00:00:00",
+            "2026-03-04T00:00:00"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date",
+          "likely_enum_values": [
+            "2026-04-01T00:00:00",
+            "2026-04-14T00:00:00",
+            "2026-03-04T00:00:00",
+            "2026-04-06T00:00:00",
+            "2026-04-28T00:00:00",
+            "2026-05-06T00:00:00",
+            "2026-03-30T00:00:00",
+            "2026-02-24T00:00:00",
+            "2026-04-29T00:00:00",
+            "2026-02-24 to 2026-05-06"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 1,
+          "nonblank_count": 11,
+          "sensitivity": "Operational",
+          "source_column": "Reopen - Supplement",
+          "static_value_count": 11,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 37,
+          "coverage_percent": 12.49,
+          "distinct_count": 89,
+          "example_values": [
+            "132",
+            "118",
+            "132"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Operational",
+          "source_column": "Days Opened",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 38,
+          "coverage_percent": 12.43,
+          "distinct_count": 1,
+          "example_values": [
+            "Taylor Gholson LeMasters",
+            "Taylor Gholson LeMasters",
+            "Taylor Gholson LeMasters"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Taylor Gholson LeMasters"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "Support",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 39,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "PII",
+          "source_column": "CRM Email",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 40,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "CRM FILE #",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 41,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Timeline - Start",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 42,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Timeline - End",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 43,
+          "coverage_percent": 1.69,
+          "distinct_count": 23,
+          "example_values": [
+            "Started from zero.l",
+            "Previously closed. New Billable Amount $65.88",
+            "Previously closed. New Billable Increase $92.02"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 29,
+          "sensitivity": "Operational",
+          "source_column": "Invoicing Notes",
+          "static_value_count": 29,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 44,
+          "coverage_percent": 12.49,
+          "distinct_count": 27,
+          "example_values": [
+            "80.8404282407",
+            "80.8404282407",
+            "69.8404282407"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 215,
+          "sensitivity": "Operational",
+          "source_column": "Days in Status",
+          "static_value_count": 215,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 45,
+          "coverage_percent": 12.43,
+          "distinct_count": 1,
+          "example_values": [
+            "Archive Q2 2026",
+            "Archive Q2 2026",
+            "Archive Q2 2026"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Archive Q2 2026"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "link to [Dup]Claim Handling",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 46,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "PII",
+          "source_column": "CH Update__2",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 47,
+          "coverage_percent": 8.02,
+          "distinct_count": 40,
+          "example_values": [
+            "2026-05-11",
+            "2026-05-13",
+            "2026-05-21"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date_string",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-07-15T00:00:00",
+          "minimum": "2026-05-01T00:00:00",
+          "mixed_type_count": 0,
+          "nonblank_count": 138,
+          "sensitivity": "Operational",
+          "source_column": "LAST UPDATE",
+          "static_value_count": 138,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 48,
+          "coverage_percent": 7.96,
+          "distinct_count": 137,
+          "example_values": [
+            "Asked CTR if insured received depreciation and revised esitmate, Note from CTR: Yes…. I think the...",
+            "carrier confirmed updated supplement  patio bid to be received, pending review, Posted note from ...",
+            "Note @ShanePearson Thank you. We are on stand by for that information! Have a great day., Revised..."
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 137,
+          "sensitivity": "Operational",
+          "source_column": "CALL RECAP - SUBITEM",
+          "static_value_count": 137,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 49,
+          "coverage_percent": 6.62,
+          "distinct_count": 36,
+          "example_values": [
+            "2026-05-14",
+            "2026-05-12",
+            "2026-05-21"
+          ],
+          "formula_count": 0,
+          "inferred_type": "date_string",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": "2026-07-03T00:00:00",
+          "minimum": "2026-05-11T00:00:00",
+          "mixed_type_count": 0,
+          "nonblank_count": 114,
+          "sensitivity": "Operational",
+          "source_column": "Next Step Date",
+          "static_value_count": 114,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 50,
+          "coverage_percent": 3.31,
+          "distinct_count": 57,
+          "example_values": [
+            "[REDACTED ADDRESS]",
+            "[REDACTED ADDRESS]",
+            "[REDACTED ADDRESS]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 57,
+          "sensitivity": "PII",
+          "source_column": "Property Address",
+          "static_value_count": 57,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 51,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "PII",
+          "source_column": "Homeowner Name",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 52,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "New Files",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 53,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Financial",
+          "source_column": "Outstanding",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 54,
+          "coverage_percent": 0.06,
+          "distinct_count": 1,
+          "example_values": [
+            "0"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [
+            "0"
+          ],
+          "malformed_count": 0,
+          "maximum": 0.0,
+          "minimum": 0.0,
+          "mixed_type_count": 0,
+          "nonblank_count": 1,
+          "sensitivity": "Financial",
+          "source_column": "Updated RCV",
+          "static_value_count": 1,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 55,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Next Action",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 56,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Last AI Update",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 57,
+          "coverage_percent": 6.28,
+          "distinct_count": 79,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 108,
+          "sensitivity": "PII",
+          "source_column": "Admin Notes/Next action",
+          "static_value_count": 108,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 58,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Priority",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 59,
+          "coverage_percent": 0.0,
+          "distinct_count": 0,
+          "example_values": [],
+          "formula_count": 0,
+          "inferred_type": "empty",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 0,
+          "sensitivity": "Operational",
+          "source_column": "Claim Health",
+          "static_value_count": 0,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 60,
+          "coverage_percent": 12.43,
+          "distinct_count": 1,
+          "example_values": [
+            "Run Review",
+            "Run Review",
+            "Run Review"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Run Review"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "Run Review",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 61,
+          "coverage_percent": 12.43,
+          "distinct_count": 214,
+          "example_values": [
+            "11500378675",
+            "11616703262",
+            "11500409365"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 214,
+          "sensitivity": "Operational",
+          "source_column": "Item ID (auto generated)",
+          "static_value_count": 214,
+          "whitespace_only_count": 0
+        }
+      ],
+      "formula_count": 0,
+      "header_row": 5,
+      "hidden_column_count": 0,
+      "hidden_row_count": 0,
+      "merged_ranges": [],
+      "name": "archive q2 2026",
+      "worksheet_max_columns": 61,
+      "worksheet_max_rows": 1726
+    },
+    {
+      "blank_data_row_count": 0,
+      "data_row_count": 5957,
+      "duplicate_column_names": [
+        "Content Type"
+      ],
+      "fields": [
+        {
+          "column_position": 1,
+          "coverage_percent": 100.0,
+          "distinct_count": 270,
+          "example_values": [
+            "10015006870",
+            "10015006870",
+            "10015006870"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5957,
+          "sensitivity": "Operational",
+          "source_column": "Item ID",
+          "static_value_count": 5957,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 2,
+          "coverage_percent": 100.0,
+          "distinct_count": 226,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5957,
+          "sensitivity": "PII",
+          "source_column": "Item Name",
+          "static_value_count": 5957,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 3,
+          "coverage_percent": 72.65,
+          "distinct_count": 1,
+          "example_values": [
+            "Update",
+            "Update",
+            "Update"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Update"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 4328,
+          "sensitivity": "Operational",
+          "source_column": "Content Type",
+          "static_value_count": 4328,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 4,
+          "coverage_percent": 27.35,
+          "distinct_count": 1,
+          "example_values": [
+            "Reply",
+            "Reply",
+            "Reply"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [
+            "Reply"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1629,
+          "sensitivity": "Operational",
+          "source_column": "Content Type__2",
+          "static_value_count": 1629,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 5,
+          "coverage_percent": 93.67,
+          "distinct_count": 19,
+          "example_values": [
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]",
+            "[REDACTED PERSON/IDENTITY]"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5580,
+          "sensitivity": "PII",
+          "source_column": "User",
+          "static_value_count": 5580,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 6,
+          "coverage_percent": 100.0,
+          "distinct_count": 5954,
+          "example_values": [
+            "08/April/2025  08:16:10 PM",
+            "11/April/2025  02:54:15 PM",
+            "14/April/2025  02:45:21 PM"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5957,
+          "sensitivity": "Operational",
+          "source_column": "Created At",
+          "static_value_count": 5957,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 7,
+          "coverage_percent": 99.8,
+          "distinct_count": 5547,
+          "example_values": [
+            "Billy Hobbs 411 SW 4th St, Kerens, TX 75144",
+            "Estimate sent, I will update once I hear back. Thank you",
+            "Outgoing Email\n\nFrom: presley@estimate-department.com\nTo: claims@hpfm.com\nSent At: Monday, April ..."
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5945,
+          "sensitivity": "Operational",
+          "source_column": "Update Content",
+          "static_value_count": 5945,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 8,
+          "coverage_percent": 100.0,
+          "distinct_count": 4,
+          "example_values": [
+            "0",
+            "0",
+            "0"
+          ],
+          "formula_count": 0,
+          "inferred_type": "number",
+          "likely_enum_values": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5957,
+          "sensitivity": "Operational",
+          "source_column": "Likes Count",
+          "static_value_count": 5957,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 9,
+          "coverage_percent": 22.02,
+          "distinct_count": 1312,
+          "example_values": [
+            "2848450251",
+            "2917086201",
+            "2929063528, 2929063854, 2929064665"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1312,
+          "sensitivity": "Operational",
+          "source_column": "Asset IDs",
+          "static_value_count": 1312,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 10,
+          "coverage_percent": 100.0,
+          "distinct_count": 5957,
+          "example_values": [
+            "4475862053",
+            "4475862055",
+            "4475862054"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 5957,
+          "sensitivity": "Operational",
+          "source_column": "Post ID",
+          "static_value_count": 5957,
+          "whitespace_only_count": 0
+        },
+        {
+          "column_position": 11,
+          "coverage_percent": 27.35,
+          "distinct_count": 1168,
+          "example_values": [
+            "4475862080",
+            "4475862095",
+            "4475862527"
+          ],
+          "formula_count": 0,
+          "inferred_type": "text",
+          "likely_enum_values": [],
+          "malformed_count": 0,
+          "maximum": null,
+          "minimum": null,
+          "mixed_type_count": 0,
+          "nonblank_count": 1629,
+          "sensitivity": "Operational",
+          "source_column": "Parent Post ID",
+          "static_value_count": 1629,
+          "whitespace_only_count": 0
+        }
+      ],
+      "formula_count": 0,
+      "header_row": 2,
+      "hidden_column_count": 0,
+      "hidden_row_count": 0,
+      "merged_ranges": [],
+      "name": "updates",
+      "worksheet_max_columns": 11,
+      "worksheet_max_rows": 5959
+    }
+  ],
+  "worksheets": [
+    "archive q2 2026",
+    "updates"
+  ]
+}
