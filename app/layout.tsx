@@ -10,9 +10,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase,
     title: { default: "TotalScope Intelligence", template: "%s | TotalScope Intelligence" },
-    description: "Unified property intelligence for decisive insurance operations.",
-    openGraph: { title: "TotalScope Intelligence", description: "See the entire risk. Act with precision.", images: ["/og.png"], type: "website" },
-    twitter: { card: "summary_large_image", title: "TotalScope Intelligence", description: "See the entire risk. Act with precision.", images: ["/og.png"] },
+    description: "Restoration estimating and property-claim intelligence for decisive operations.",
+    openGraph: { title: "TotalScope Intelligence", description: "Turn every file into operational clarity.", images: ["/og.png"], type: "website" },
+    twitter: { card: "summary_large_image", title: "TotalScope Intelligence", description: "Turn every file into operational clarity.", images: ["/og.png"] },
   };
 }
 
