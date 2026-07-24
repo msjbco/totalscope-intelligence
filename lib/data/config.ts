@@ -1,21 +1,39 @@
 import type { DataMode } from "@/types/live-intelligence";
 
 export function getDataMode(): DataMode {
-  const mode = process.env.TOTALSCOPE_DATA_MODE ?? "demo";
+  const mode = process.env.TOTALSCOPE_DATA_MODE;
   if (mode !== "demo" && mode !== "live") {
-    throw new Error(`Invalid TOTALSCOPE_DATA_MODE "${mode}". Expected "demo" or "live".`);
+    throw new Error("TOTALSCOPE_DATA_MODE must be explicitly set to \"demo\" or \"live\".");
   }
   return mode;
 }
 
-export function requireLiveEnvironment() {
-  if (process.env.TOTALSCOPE_INTERNAL_ACCESS_ENABLED !== "true") {
-    throw new Error("Live operational access is disabled. Set TOTALSCOPE_INTERNAL_ACCESS_ENABLED=true only in a protected local environment.");
+export type DeploymentEnvironment = "local" | "staging" | "production";
+
+export function getDeploymentEnvironment(): DeploymentEnvironment {
+  const value = process.env.TOTALSCOPE_DEPLOYMENT_ENV ?? "local";
+  if (value !== "local" && value !== "staging" && value !== "production") {
+    throw new Error("TOTALSCOPE_DEPLOYMENT_ENV must be local, staging, or production.");
   }
-  const url = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceRoleKey) {
-    throw new Error("Live mode requires server-only SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.");
+  return value;
+}
+
+export function requirePublicSupabaseEnvironment() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !anonKey) {
+    throw new Error("Live mode requires NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.");
   }
-  return { url: url.replace(/\/$/, ""), serviceRoleKey };
+  if (!/^https?:\/\//.test(url)) throw new Error("NEXT_PUBLIC_SUPABASE_URL must be an absolute HTTP(S) URL.");
+  return { url: url.replace(/\/$/, ""), anonKey };
+}
+
+export function validateApplicationEnvironment() {
+  const mode = getDataMode();
+  const deployment = getDeploymentEnvironment();
+  if (deployment !== "local" && mode !== "live") {
+    throw new Error(`${deployment} deployments require TOTALSCOPE_DATA_MODE=live.`);
+  }
+  if (mode === "live") requirePublicSupabaseEnvironment();
+  return { mode, deployment };
 }

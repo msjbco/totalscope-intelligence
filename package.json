@@ -14,9 +14,12 @@
     "import:q2-2026": "node scripts/run-q2-2026-import.mjs import",
     "inspect:q2-2026": "node scripts/run-q2-2026-import.mjs inspect",
     "validate:q2-2026-import": "node scripts/run-q2-2026-import.mjs validate --json-output .artifacts/q2-2026-import-validation.json",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "test:c2-db": "node tests/c2-database-security.mjs"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.8",
     "next": "15.5.21",
     "react": "19.1.1",
     "react-dom": "19.1.1"

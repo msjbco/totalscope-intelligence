@@ -47,13 +47,22 @@ Deterministic observations cover claim-volume change, average-recovery change, c
 
 ```bash
 npm install
+npm test
 npm run dev
 npm run typecheck
 npm run lint
 npm run build
 ```
 
-The included `netlify.toml` configures the official Next.js adapter for Netlify.
+Local demo startup requires explicit boundaries:
+
+```powershell
+$env:TOTALSCOPE_DATA_MODE="demo"
+$env:TOTALSCOPE_DEPLOYMENT_ENV="local"
+npm run dev
+```
+
+The application remains Netlify compatible and C2 also documents a separate Vercel staging deployment.
 
 ## Architecture documentation
 
@@ -71,12 +80,16 @@ See [C1 Q2 2026 Live Vertical Slice](docs/architecture/c1-live-vertical-slice.md
 npm run validate:q2-2026-import
 ```
 
-Production authentication is not implemented. Live routes require an explicit protected-local access switch and server-only Supabase credentials.
+### C2 authenticated staging foundation
+
+C2 adds Supabase email/password authentication, cookie-backed server sessions, `viewer` and `staging_admin` roles, defense-in-depth route guards, browser-safe column grants with RLS, an explicit import-target confirmation, and a coarse `/api/health` endpoint. Browser-facing reads use the anon key plus the authenticated user JWT; service-role access remains importer-only.
+
+See [C2 staging security architecture](docs/architecture/c2-staging-security.md) and the [staging deployment runbook](docs/runbooks/c2-staging-deployment.md). Staging and production-like builds fail when explicit live configuration is incomplete. No open signup is provided.
 
 ## Known production gaps
 
-- Login and Enterprise SSO are visual-only; production authentication and authorization are not implemented.
-- Demo mode is in-memory and synthetic. Live mode requires the C1 Supabase migration, Q2 import, server-only credentials, and protected-local access gate.
+- Email/password authentication is staging-ready; Enterprise SSO, MFA policy, and production authentication rollout are not implemented.
+- Demo mode is in-memory, synthetic, and explicit. Live mode requires both migrations, the Q2 import, public Supabase project values, and an authenticated account.
 - Weather events are synthetic and are not live observations or forecasts.
 - Exports, scheduled reports, alerts, settings persistence, integrations, and notifications are disabled placeholders.
 - Billing, production monitoring, audit logging, and data-governance controls are not implemented.

@@ -21,7 +21,6 @@ export interface LiveDashboardSummary {
   sourceLabel: string;
   collectionSourceLabel: string;
   metrics: LiveMetric[];
-  issueCount: number;
 }
 
 export interface LiveClaimListItem {
@@ -52,10 +51,8 @@ export interface LiveClaimDetail extends LiveClaimListItem {
     author: string | null; body: string | null; blankBody: boolean; duplicateBody: boolean; sourceRow: number;
   }>;
   provenance: {
-    sourceFilename: string; sourceSha256: string; worksheet: string; sourceRow: number;
-    importJobId: string; importerVersion: string; transformationVersion: string;
+    worksheet: string; sourceRow: number; sourceSystem: string;
   };
-  issues: Array<{ type: string; severity: string; status: string; description: string }>;
 }
 
 export interface ImportValidation {

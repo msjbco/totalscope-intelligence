@@ -10,6 +10,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
+import urllib.parse
 from collections import Counter
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
@@ -374,11 +375,30 @@ def mark_import_failed(url: str, key: str, payload: dict[str, Any], error: Excep
         return
 
 
-def import_payload(payload: dict[str, Any]) -> dict[str, Any]:
+def confirm_import_target(confirm_target: str | None) -> tuple[str, str, str]:
+    configured = os.environ.get("TOTALSCOPE_IMPORT_TARGET")
+    url = os.environ.get("SUPABASE_URL", "")
+    if configured not in {"local", "staging"}:
+        raise RuntimeError("TOTALSCOPE_IMPORT_TARGET must explicitly be local or staging; production targets are prohibited")
+    if confirm_target != configured:
+        raise RuntimeError(f"Import confirmation mismatch: expected --confirm-target {configured}")
+    parsed = urllib.parse.urlparse(url)
+    hostname = (parsed.hostname or "").lower()
+    is_local = hostname in {"127.0.0.1", "localhost", "::1"}
+    if configured == "local" and not is_local:
+        raise RuntimeError("TOTALSCOPE_IMPORT_TARGET=local requires a loopback Supabase URL")
+    if configured == "staging" and ("prod" in hostname or "production" in hostname):
+        raise RuntimeError("Production-like target hostname rejected")
+    return configured, hostname or "unresolved", "local" if is_local else "hosted"
+
+
+def import_payload(payload: dict[str, Any], confirm_target: str | None) -> dict[str, Any]:
     url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
     if not url or not key:
         raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required for database import")
+    target, hostname, location = confirm_import_target(confirm_target)
+    print(f"Confirmed import target: environment={target} location={location} host={hostname}", file=sys.stderr)
     batches = list(database_batches(payload))
     final_result = {}
     try:
@@ -442,6 +462,7 @@ def main() -> int:
     parser.add_argument("command", choices=("inspect", "import", "validate"))
     parser.add_argument("--allow-checksum-override", action="store_true")
     parser.add_argument("--json-output", type=Path)
+    parser.add_argument("--confirm-target", choices=("local", "staging"))
     args = parser.parse_args()
     try:
         before = hashlib.sha256(SOURCE.read_bytes()).hexdigest() if SOURCE.exists() else None
@@ -449,7 +470,7 @@ def main() -> int:
         summary = summarize(payload)
         failures = validate(summary)
         if args.command == "import":
-            summary["database"] = import_payload(payload)
+            summary["database"] = import_payload(payload, args.confirm_target)
         elif args.command == "validate":
             summary["database_validation"] = validate_database()
             failures.extend(summary["database_validation"].get("failures", []))

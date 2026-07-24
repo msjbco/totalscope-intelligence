@@ -66,12 +66,13 @@ test("import job retry, finalize, and failure paths assign the enum type",()=>{
   assert.match(migration,/Failure enum assignment probe failed/);
 });
 
-test("live routes disclose provenance and Stripe boundary",()=>{
+test("live routes disclose sanitized provenance and Stripe boundary",()=>{
   const dashboard=readFileSync("components/dashboard/live-executive-dashboard.tsx","utf8");
   const detail=readFileSync("app/claims/[id]/page.tsx","utf8");
   const validation=readFileSync("app/admin/imports/q2-2026/page.tsx","utf8");
   assert.match(dashboard,/Q2 2026 Live Archive Data/);
   assert.match(dashboard,/Stripe not yet connected/);
-  assert.match(detail,/TECHNICAL PROVENANCE/);
+  assert.match(detail,/SANITIZED PROVENANCE/);
+  assert.doesNotMatch(detail,/sourceSha256|importJobId/);
   assert.match(validation,/EXPECTED VS ACTUAL/);
 });
