@@ -8,6 +8,16 @@ type ClaimRow = {
   contractor:{display_name:string}|null; carrier:{display_name:string}|null;
 };
 
+type ImportValidationRow = {
+  import_job_id:string; import_status:string; claim_count:number;
+  complete_status_count:number; closed_status_count:number;
+  staged_subitem_header_count:number; staged_subitem_detail_count:number;
+  update_count:number; unmatched_update_row_count:number;
+  unmatched_update_item_id_count:number; unique_post_id_count:number;
+  additional_rcv_exact_match_count:number; additional_rcv_tolerance_only_count:number;
+  additional_rcv_mismatch_count:number; additional_rcv_missing_component_count:number;
+};
+
 const expected = {
   claim_count:214, complete_status_count:177, closed_status_count:37,
   staged_subitem_header_count:148, staged_subitem_detail_count:1359, update_count:5957,
@@ -72,13 +82,22 @@ export async function getLiveClaimDetail(id:string):Promise<LiveClaimDetail|null
 }
 
 export async function getImportValidation():Promise<ImportValidation>{
-  const [jobs,counts,issues]=await Promise.all([
+  const [jobs,summaries,issues]=await Promise.all([
     supabaseRest<Array<{id:string;status:string;source_filename:string;source_sha256:string;source_period:string;importer_version:string;started_at:string;completed_at:string|null;source_workbook_metadata:Record<string,unknown>}>>("import_jobs?source_period=eq.2026-Q2&select=id,status,source_filename,source_sha256,source_period,importer_version,started_at,completed_at,source_workbook_metadata&order=started_at.desc,id.desc&limit=1"),
-    supabaseRest<Array<Record<string,number>>>("q2_2026_import_validation?select=*&order=import_job_id.desc&limit=1"),
+    supabaseRest<ImportValidationRow[]>("rpc/get_q2_2026_import_validation"),
     supabaseRest<Array<{issue_type:string;severity:string;status:string}>>("data_quality_issues?select=issue_type,severity,status"),
   ]);
   const grouped=new Map<string,{issueType:string;severity:string;status:string;count:number}>();
   for(const issue of issues){const key=`${issue.issue_type}:${issue.severity}:${issue.status}`;const current=grouped.get(key);grouped.set(key,{issueType:issue.issue_type,severity:issue.severity,status:issue.status,count:(current?.count??0)+1});}
-  const job=jobs[0];
-  return {mode:"live",available:Boolean(job&&counts[0]),importJob:job?{id:job.id,status:job.status,sourceFilename:job.source_filename,sourceSha256:job.source_sha256,sourcePeriod:job.source_period,importerVersion:job.importer_version,startedAt:job.started_at,completedAt:job.completed_at,metadata:job.source_workbook_metadata}:undefined,counts:counts[0]??{},expected,issues:[...grouped.values()]};
+  const job=jobs[0],summary=summaries[0];
+  const counts:Record<string,number>=summary?{
+    claim_count:Number(summary.claim_count),complete_status_count:Number(summary.complete_status_count),
+    closed_status_count:Number(summary.closed_status_count),staged_subitem_header_count:Number(summary.staged_subitem_header_count),
+    staged_subitem_detail_count:Number(summary.staged_subitem_detail_count),update_count:Number(summary.update_count),
+    unmatched_update_row_count:Number(summary.unmatched_update_row_count),unmatched_update_item_id_count:Number(summary.unmatched_update_item_id_count),
+    unique_post_id_count:Number(summary.unique_post_id_count),additional_rcv_exact_match_count:Number(summary.additional_rcv_exact_match_count),
+    additional_rcv_tolerance_only_count:Number(summary.additional_rcv_tolerance_only_count),additional_rcv_mismatch_count:Number(summary.additional_rcv_mismatch_count),
+    additional_rcv_missing_component_count:Number(summary.additional_rcv_missing_component_count),
+  }:{};
+  return {mode:"live",available:Boolean(job&&summary&&summary.import_job_id===job.id&&summary.import_status===job.status),importJob:job?{id:job.id,status:job.status,sourceFilename:job.source_filename,sourceSha256:job.source_sha256,sourcePeriod:job.source_period,importerVersion:job.importer_version,startedAt:job.started_at,completedAt:job.completed_at,metadata:job.source_workbook_metadata}:undefined,counts,expected,issues:[...grouped.values()]};
 }

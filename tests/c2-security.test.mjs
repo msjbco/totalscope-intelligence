@@ -5,6 +5,7 @@ import test from "node:test";
 
 const read=(path)=>readFileSync(path,"utf8");
 const migration=read("supabase/migrations/202607230002_c2_staging_security.sql");
+const adminValidationMigration=read("supabase/migrations/202607240001_c2_admin_validation_surface.sql");
 const filesUnder=(root)=>readdirSync(root).flatMap(name=>{const path=join(root,name);return statSync(path).isDirectory()?filesUnder(path):[path]});
 
 test("viewer and staging admin are the only roles and profiles cannot self-elevate",()=>{
@@ -38,6 +39,24 @@ test("admin validation query uses only authorized import job fields",()=>{
   assert.doesNotMatch(validationQuery,/select=\*/);
   assert.doesNotMatch(validationQuery,/created_at/);
   assert.match(validationQuery,/order=started_at\.desc,id\.desc/);
+  assert.match(repository,/supabaseRest<ImportValidationRow\[]>\("rpc\/get_q2_2026_import_validation"\)/);
+  assert.doesNotMatch(repository,/q2_2026_import_validation\?select=\*/);
+  assert.match(repository,/summary\.import_job_id===job\.id&&summary\.import_status===job\.status/);
+});
+
+test("admin validation RPC is a minimal authorized aggregate boundary",()=>{
+  assert.match(adminValidationMigration,/returns table \(\s*import_job_id uuid,\s*import_status public\.import_status,/);
+  assert.match(adminValidationMigration,/security definer/);
+  assert.match(adminValidationMigration,/set search_path = ''/);
+  assert.match(adminValidationMigration,/if auth\.uid\(\) is null/);
+  assert.match(adminValidationMigration,/if not private\.is_staging_admin\(\)/);
+  assert.match(adminValidationMigration,/using errcode = '42501'/);
+  assert.match(adminValidationMigration,/owner to postgres/);
+  assert.match(adminValidationMigration,/revoke all on function public\.get_q2_2026_import_validation\(\) from public, anon, authenticated/);
+  assert.match(adminValidationMigration,/grant execute on function public\.get_q2_2026_import_validation\(\) to authenticated/);
+  assert.doesNotMatch(adminValidationMigration,/select \*/);
+  assert.doesNotMatch(adminValidationMigration,/update_body|raw_row|source_workbook_metadata|description/);
+  assert.doesNotMatch(adminValidationMigration,/grant select .*claim_updates/i);
 });
 
 test("live repositories require an authenticated user JWT and never use service role",()=>{
