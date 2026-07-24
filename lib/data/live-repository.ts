@@ -73,7 +73,7 @@ export async function getLiveClaimDetail(id:string):Promise<LiveClaimDetail|null
 
 export async function getImportValidation():Promise<ImportValidation>{
   const [jobs,counts,issues]=await Promise.all([
-    supabaseRest<Array<{id:string;status:string;source_filename:string;source_sha256:string;source_period:string;importer_version:string;started_at:string;completed_at:string|null;source_workbook_metadata:Record<string,unknown>}>>("import_jobs?source_period=eq.2026-Q2&select=*&order=created_at.desc&limit=1"),
+    supabaseRest<Array<{id:string;status:string;source_filename:string;source_sha256:string;source_period:string;importer_version:string;started_at:string;completed_at:string|null;source_workbook_metadata:Record<string,unknown>}>>("import_jobs?source_period=eq.2026-Q2&select=id,status,source_filename,source_sha256,source_period,importer_version,started_at,completed_at,source_workbook_metadata&order=started_at.desc,id.desc&limit=1"),
     supabaseRest<Array<Record<string,number>>>("q2_2026_import_validation?select=*&order=import_job_id.desc&limit=1"),
     supabaseRest<Array<{issue_type:string;severity:string;status:string}>>("data_quality_issues?select=issue_type,severity,status"),
   ]);

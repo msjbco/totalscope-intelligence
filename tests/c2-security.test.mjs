@@ -28,6 +28,18 @@ test("admin validation is denied to viewers at both route and database layers",(
   assert.match(migration,/staging admins read import jobs/);
 });
 
+test("admin validation query uses only authorized import job fields",()=>{
+  const repository=read("lib/data/live-repository.ts");
+  const validationQuery=repository.match(/"import_jobs\?[^"]+"/)?.[0]??"";
+  assert.equal(
+    validationQuery,
+    '"import_jobs?source_period=eq.2026-Q2&select=id,status,source_filename,source_sha256,source_period,importer_version,started_at,completed_at,source_workbook_metadata&order=started_at.desc,id.desc&limit=1"',
+  );
+  assert.doesNotMatch(validationQuery,/select=\*/);
+  assert.doesNotMatch(validationQuery,/created_at/);
+  assert.match(validationQuery,/order=started_at\.desc,id\.desc/);
+});
+
 test("live repositories require an authenticated user JWT and never use service role",()=>{
   const repository=read("lib/data/supabase-rest.ts");
   assert.match(repository,/auth\.getUser\(\)/);
