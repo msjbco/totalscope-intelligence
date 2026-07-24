@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Script from "next/script";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,5 +19,21 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className="dark"><body>{children}</body></html>;
+  return <html lang="en" className="dark" data-theme="dark" suppressHydrationWarning><body>
+    <Script id="theme-initializer" strategy="beforeInteractive">{`
+      (() => {
+        try {
+          const saved = localStorage.getItem("totalscope-theme");
+          const theme = saved === "light" || saved === "dark"
+            ? saved
+            : (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.classList.toggle("dark", theme === "dark");
+          document.documentElement.style.colorScheme = theme;
+        } catch (_) {}
+      })();
+    `}</Script>
+    {children}
+    <ThemeToggle/>
+  </body></html>;
 }
