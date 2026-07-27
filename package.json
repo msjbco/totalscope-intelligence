@@ -19,7 +19,8 @@
     "import:c3-fixtures": "node scripts/c3/ingest-fixtures.mjs import",
     "validate:c3-import": "node scripts/c3/ingest-fixtures.mjs validate",
     "test": "node --test tests/*.test.mjs",
-    "test:c2-db": "node tests/c2-database-security.mjs"
+    "test:c2-db": "node tests/c2-database-security.mjs",
+    "test:c3-db": "node tests/c3-database-security.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
