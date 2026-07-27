@@ -1,5 +1,6 @@
 {
   "fixtureVersion": "c3-deterministic-v1",
+  "capturedAt": "2026-06-30T23:59:59-04:00",
   "mode": "full",
   "businessTimezone": "America/New_York",
   "currencyScope": ["USD"],
