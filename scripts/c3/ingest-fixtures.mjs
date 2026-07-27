@@ -70,6 +70,15 @@ async function insertIgnoringConflicts(config, table, rows, conflictColumns) {
   });
 }
 
+async function upsertMerging(config, table, rows, conflictColumns) {
+  if (!rows.length) return;
+  await rest(config, `${table}?on_conflict=${encodeURIComponent(conflictColumns.join(","))}`, {
+    method: "POST",
+    headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: JSON.stringify(rows),
+  });
+}
+
 async function patch(config, table, filters, values) {
   const query = Object.entries(filters).map(([key, value]) => `${key}=eq.${encodeURIComponent(value)}`).join("&");
   await rest(config, `${table}?${query}`, {
@@ -274,6 +283,224 @@ async function importDataset(config, pkg, version, contract, plan) {
   }
 }
 
+function normalizedName(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function sourceRecordMap(records, logicalTable) {
+  return new Map(records.filter((record) => record.logical_table === logicalTable).map((record) => [record.stable_source_key, record]));
+}
+
+async function rowsByStableKey(config, table, stableColumn) {
+  const rows = await rest(config, `${table}?select=id,${stableColumn}`);
+  return new Map(rows.map((row) => [row[stableColumn], row.id]));
+}
+
+function lineageRow(entityType, entityId, field, record, sourcePath, availability = "captured") {
+  return {
+    canonical_entity_type: entityType,
+    canonical_entity_id: entityId,
+    canonical_field_name: field,
+    ingestion_record_id: record.id,
+    ingestion_run_id: record.ingestion_run_id,
+    source_field_path: sourcePath,
+    transformation_version: MAPPING_VERSION,
+    authority_rule: "approved_fixture_contract",
+    availability,
+    confidence: "source_provided",
+    source_observed_at: record.source_observed_at,
+  };
+}
+
+async function promoteOperationalFixtures(config, pkg, runId) {
+  const dataset = pkg.datasets["tsi-historical-v1"];
+  const records = await rest(config, `ingestion_records?ingestion_run_id=eq.${runId}&select=id,ingestion_run_id,logical_table,stable_source_key,source_observed_at`);
+  const clientsSource = sourceRecordMap(records, "clients");
+  const branchesSource = sourceRecordMap(records, "branches");
+  const usersSource = sourceRecordMap(records, "users");
+  const filesSource = sourceRecordMap(records, "files");
+
+  await upsertMerging(config, "clients", dataset.clients.map((row) => ({
+    stable_client_id: row.client_id,
+    display_name: row.client_name,
+    normalized_name: normalizedName(row.client_name),
+    active: row.active,
+    first_ingestion_run_id: runId,
+    last_ingestion_run_id: runId,
+    source_last_observed_at: row.updated_at,
+  })), ["stable_client_id"]);
+  const clientIds = await rowsByStableKey(config, "clients", "stable_client_id");
+  await insertIgnoringConflicts(config, "client_aliases", dataset.clients.map((row) => ({
+    client_id: clientIds.get(row.client_id),
+    source_system: "totalscope_export",
+    external_id: row.client_id,
+    raw_alias: row.client_name,
+    normalized_alias: normalizedName(row.client_name),
+    ingestion_record_id: clientsSource.get(row.client_id).id,
+  })), ["source_system", "external_id"]);
+
+  await upsertMerging(config, "branches", dataset.branches.map((row) => ({
+    client_id: clientIds.get(row.client_id),
+    stable_branch_id: row.branch_id,
+    display_name: row.branch_name,
+    normalized_name: normalizedName(row.branch_name),
+    active: row.active,
+    first_ingestion_run_id: runId,
+    last_ingestion_run_id: runId,
+    source_last_observed_at: row.updated_at,
+  })), ["stable_branch_id"]);
+  const branchIds = await rowsByStableKey(config, "branches", "stable_branch_id");
+  await insertIgnoringConflicts(config, "branch_aliases", dataset.branches.map((row) => ({
+    branch_id: branchIds.get(row.branch_id),
+    source_system: "totalscope_export",
+    external_id: row.branch_id,
+    raw_alias: row.branch_name,
+    normalized_alias: normalizedName(row.branch_name),
+    ingestion_record_id: branchesSource.get(row.branch_id).id,
+  })), ["source_system", "external_id"]);
+
+  await upsertMerging(config, "operational_people", dataset.users.map((row) => ({
+    stable_user_id: row.user_id,
+    display_name: row.display_name,
+    normalized_name: normalizedName(row.display_name),
+    work_email: row.work_email,
+    active: row.active,
+    first_ingestion_run_id: runId,
+    last_ingestion_run_id: runId,
+    source_last_observed_at: row.updated_at,
+  })), ["stable_user_id"]);
+  const personIds = await rowsByStableKey(config, "operational_people", "stable_user_id");
+
+  await upsertMerging(config, "operational_files", dataset.files.map((row) => ({
+    stable_file_id: row.totalscope_file_id,
+    client_id: clientIds.get(row.client_id),
+    branch_id: branchIds.get(row.branch_id),
+    service_type: row.service_type,
+    current_status: row.current_status,
+    current_status_authority: "source_provided_fixture",
+    submitted_at: row.submitted_at,
+    submitted_at_availability: row.submitted_at === null ? "not_captured" : "captured",
+    completed_at: row.completed_at,
+    completed_at_availability: row.completed_at === null ? "not_applicable" : "captured",
+    carrier_source_name: row.carrier_name,
+    financial_availability: row.financial_availability,
+    source_timezone: "America/New_York",
+    source_timezone_status: "explicit_offset",
+    first_ingestion_run_id: runId,
+    last_ingestion_run_id: runId,
+    source_last_observed_at: row.updated_at,
+  })), ["stable_file_id"]);
+  const fileIds = await rowsByStableKey(config, "operational_files", "stable_file_id");
+
+  for (const [tableName, sourceKey, rows, target, key, mapper] of [
+    ["status_history", "status_event_id", dataset.status_history, "file_status_events", "stable_status_event_id", (row, source) => ({
+      stable_status_event_id: row.status_event_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      status: row.status,
+      effective_at: row.effective_at,
+      source_timezone: "America/New_York",
+      source_timezone_status: "explicit_offset",
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+    ["assignments", "assignment_id", dataset.assignments, "file_assignments", "stable_assignment_id", (row, source) => ({
+      stable_assignment_id: row.assignment_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      operational_person_id: personIds.get(row.user_id),
+      assignment_type: row.assignment_type,
+      started_at: row.started_at,
+      ended_at: row.ended_at,
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+    ["notes", "note_id", dataset.notes, "file_notes", "stable_note_id", (row, source) => ({
+      stable_note_id: row.note_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      note_body: row.body,
+      note_body_availability: row.body === null ? "not_captured" : "captured",
+      source_created_at: row.created_at,
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+    ["documents", "document_id", dataset.documents, "file_documents", "stable_document_id", (row, source) => ({
+      stable_document_id: row.document_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      document_type: row.document_type,
+      filename: row.filename,
+      sha256: row.sha256,
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+    ["tags", "tag_event_id", dataset.tags, "file_tags", "stable_tag_event_id", (row, source) => ({
+      stable_tag_event_id: row.tag_event_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      tag: row.tag,
+      normalized_tag: normalizedName(row.tag),
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+    ["custom_fields", "custom_field_fact_id", dataset.custom_fields, "file_custom_field_facts", "stable_custom_field_fact_id", (row, source) => ({
+      stable_custom_field_fact_id: row.custom_field_fact_id,
+      operational_file_id: fileIds.get(row.totalscope_file_id),
+      field_key: row.field_key,
+      raw_value: row.raw_value,
+      normalized_value: row.raw_value,
+      availability: row.raw_value === null ? "not_captured" : "captured",
+      mapping_version: MAPPING_VERSION,
+      ingestion_record_id: source.id,
+      ingestion_run_id: runId,
+    })],
+  ]) {
+    const sources = sourceRecordMap(records, tableName);
+    await insertIgnoringConflicts(config, target, rows.map((row) => mapper(row, sources.get(row[sourceKey]))), [key]);
+  }
+
+  const lineage = [];
+  for (const row of dataset.clients) {
+    const source = clientsSource.get(row.client_id);
+    lineage.push(lineageRow("client", clientIds.get(row.client_id), "display_name", source, "clients.client_name"));
+  }
+  for (const row of dataset.branches) {
+    const source = branchesSource.get(row.branch_id);
+    lineage.push(lineageRow("branch", branchIds.get(row.branch_id), "display_name", source, "branches.branch_name"));
+  }
+  for (const row of dataset.users) {
+    const source = usersSource.get(row.user_id);
+    const id = personIds.get(row.user_id);
+    lineage.push(lineageRow("operational_person", id, "display_name", source, "users.display_name"));
+    lineage.push(lineageRow("operational_person", id, "work_email", source, "users.work_email", row.work_email === null ? "not_captured" : "captured"));
+  }
+  for (const row of dataset.files) {
+    const source = filesSource.get(row.totalscope_file_id);
+    const id = fileIds.get(row.totalscope_file_id);
+    for (const [field, sourceField, availability] of [
+      ["client_id", "client_id", "captured"],
+      ["branch_id", "branch_id", "captured"],
+      ["service_type", "service_type", "captured"],
+      ["current_status", "current_status", "captured"],
+      ["submitted_at", "submitted_at", row.submitted_at === null ? "not_captured" : "captured"],
+      ["completed_at", "completed_at", row.completed_at === null ? "not_applicable" : "captured"],
+      ["carrier_source_name", "carrier_name", row.carrier_name === null ? "not_captured" : "captured"],
+      ["financial_availability", "financial_availability", "captured"],
+    ]) {
+      lineage.push(lineageRow("operational_file", id, field, source, `files.${sourceField}`, availability));
+    }
+  }
+  await insertIgnoringConflicts(config, "canonical_field_lineage", lineage, [
+    "canonical_entity_type", "canonical_entity_id", "canonical_field_name", "ingestion_record_id", "transformation_version",
+  ]);
+
+  return {
+    clients: clientIds.size,
+    branches: branchIds.size,
+    people: personIds.size,
+    files: fileIds.size,
+    statusEvents: dataset.status_history.length,
+    assignments: dataset.assignments.length,
+    lineage: lineage.length,
+  };
+}
+
 export async function importFixtures(config) {
   const pkg = loadFixturePackage();
   const validation = validateFixturePackage(pkg);
@@ -283,7 +510,9 @@ export async function importFixtures(config) {
   for (const [version, contract] of Object.entries(pkg.contracts)) {
     results.push(await importDataset(config, pkg, version, contract, plans.find((plan) => plan.contractVersion === version)));
   }
-  return { fixtureVersion: pkg.manifest.fixtureVersion, fixtureFingerprint: validation.fingerprint, results };
+  const operationalRun = results.find((result) => result.sourceSystem === "totalscope_export");
+  const canonical = await promoteOperationalFixtures(config, pkg, operationalRun.runId);
+  return { fixtureVersion: pkg.manifest.fixtureVersion, fixtureFingerprint: validation.fingerprint, results, canonical };
 }
 
 export async function validateDatabase(config) {
@@ -301,7 +530,26 @@ export async function validateDatabase(config) {
     }
     results.push({ sourceSystem: expected.sourceSystem, runId: run.id, status: run.status, records: records.length, normalizationAttempts: attempts.length });
   }
-  return { status: "pass", results };
+  const canonicalExpected = {
+    clients: 2,
+    branches: 3,
+    operational_people: 3,
+    operational_files: 6,
+    file_status_events: 12,
+    file_assignments: 6,
+    file_notes: 2,
+    file_documents: 2,
+    file_tags: 2,
+    file_custom_field_facts: 2,
+    canonical_field_lineage: 59,
+  };
+  const canonicalCounts = {};
+  for (const [table, expected] of Object.entries(canonicalExpected)) {
+    const rows = await rest(config, `${table}?select=id`);
+    canonicalCounts[table] = rows.length;
+    if (rows.length !== expected) throw new Error(`${table}: expected ${expected}, received ${rows.length}`);
+  }
+  return { status: "pass", results, canonicalCounts };
 }
 
 async function main() {
