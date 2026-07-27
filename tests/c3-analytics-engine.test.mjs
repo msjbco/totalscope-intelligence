@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { getAnalyticsConfiguration } from "../lib/analytics/config.ts";
 import { evaluateOperations } from "../lib/analytics/engine.ts";
+import { evaluateKpis, KPI_DEFINITIONS, KPI_DEFINITION_VERSION } from "../lib/analytics/kpis.ts";
 
 const input = {
   asOf: "2026-07-01T00:00:00Z",
@@ -53,4 +54,21 @@ test("cycle-time and billing readiness are evaluated as of a supplied determinis
   assert.equal(result.cycle.averageDaysToClose.value, 10);
   assert.equal(result.cycle.averageDaysOpen.value, 61);
   assert.equal(result.cycle.approachingClaimHandlingBilling, 1);
+});
+
+test("KPI catalog is versioned and all definitions evaluate through the Analytics Engine", () => {
+  const results = evaluateKpis({ ...input, periodStart: "2026-01-01T00:00:00Z", periodEnd: "2026-12-31T23:59:59Z" }, getAnalyticsConfiguration({}));
+  assert.equal(KPI_DEFINITION_VERSION, "c3-kpi-v1");
+  assert.equal(results.length, KPI_DEFINITIONS.length);
+  assert.ok(results.every((result) => result.version === "c3-kpi-v1"));
+});
+
+test("golden financial KPI results distinguish zero from unavailable", () => {
+  const results = new Map(evaluateKpis({ ...input, periodStart: "2026-01-01T00:00:00Z", periodEnd: "2026-12-31T23:59:59Z" }, getAnalyticsConfiguration({})).map((result) => [result.key, result]));
+  assert.equal(results.get("estimate_fees").value, 10_000);
+  assert.equal(results.get("claim_handling_fees").value, null);
+  assert.equal(results.get("claim_handling_fees").status, "unavailable");
+  assert.equal(results.get("collected_amount").value, 10_000);
+  assert.equal(results.get("net_collections").value, 8_700);
+  assert.equal(results.get("outstanding_amount").value, 1_000);
 });
