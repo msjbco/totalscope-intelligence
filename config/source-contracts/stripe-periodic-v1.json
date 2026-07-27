@@ -1,0 +1,103 @@
+{
+  "contractVersion": "stripe-periodic-v1",
+  "sourceSystem": "stripe_export",
+  "datasetType": "financial_events",
+  "businessTimezone": "America/New_York",
+  "modeSupport": ["full", "incremental"],
+  "currencyScope": ["USD"],
+  "tables": [
+    {
+      "name": "invoices",
+      "stableKey": ["invoice_id"],
+      "fields": [
+        {"name": "invoice_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "client_id", "type": "string", "required": true},
+        {"name": "invoice_date", "type": "date", "required": true},
+        {"name": "status", "type": "string", "required": true},
+        {"name": "currency_code", "type": "currency", "required": true}
+      ]
+    },
+    {
+      "name": "invoice_charges",
+      "stableKey": ["charge_id"],
+      "fields": [
+        {"name": "charge_id", "type": "string", "required": true},
+        {"name": "invoice_id", "type": "string", "required": true},
+        {"name": "charge_type", "type": "string", "required": true},
+        {"name": "amount_minor", "type": "minor_units", "required": false},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "availability", "type": "availability", "required": true},
+        {"name": "client_billable", "type": "boolean", "required": true},
+        {"name": "voided", "type": "boolean", "required": true}
+      ]
+    },
+    {
+      "name": "payments",
+      "stableKey": ["payment_id"],
+      "fields": [
+        {"name": "payment_id", "type": "string", "required": true},
+        {"name": "invoice_id", "type": "string", "required": false},
+        {"name": "totalscope_file_id", "type": "string", "required": false},
+        {"name": "amount_minor", "type": "minor_units", "required": true},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "status", "type": "string", "required": true},
+        {"name": "settled_at", "type": "timestamp", "required": false}
+      ]
+    },
+    {
+      "name": "refunds",
+      "stableKey": ["refund_id"],
+      "fields": [
+        {"name": "refund_id", "type": "string", "required": true},
+        {"name": "payment_id", "type": "string", "required": true},
+        {"name": "amount_minor", "type": "minor_units", "required": true},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "status", "type": "string", "required": true},
+        {"name": "refunded_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "payment_failures",
+      "stableKey": ["failure_id"],
+      "fields": [
+        {"name": "failure_id", "type": "string", "required": true},
+        {"name": "invoice_id", "type": "string", "required": false},
+        {"name": "amount_minor", "type": "minor_units", "required": false},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "failure_code", "type": "string", "required": true},
+        {"name": "failed_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "disputes",
+      "stableKey": ["dispute_id"],
+      "fields": [
+        {"name": "dispute_id", "type": "string", "required": true},
+        {"name": "payment_id", "type": "string", "required": true},
+        {"name": "amount_minor", "type": "minor_units", "required": true},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "status", "type": "string", "required": true},
+        {"name": "opened_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "processor_fees",
+      "stableKey": ["processor_fee_id"],
+      "fields": [
+        {"name": "processor_fee_id", "type": "string", "required": true},
+        {"name": "payment_id", "type": "string", "required": true},
+        {"name": "amount_minor", "type": "minor_units", "required": true},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "assessed_at", "type": "timestamp", "required": true}
+      ]
+    }
+  ],
+  "relationships": [
+    {"fromTable": "invoice_charges", "fromField": "invoice_id", "toTable": "invoices", "toField": "invoice_id", "required": true},
+    {"fromTable": "payments", "fromField": "invoice_id", "toTable": "invoices", "toField": "invoice_id", "required": false},
+    {"fromTable": "refunds", "fromField": "payment_id", "toTable": "payments", "toField": "payment_id", "required": true},
+    {"fromTable": "disputes", "fromField": "payment_id", "toTable": "payments", "toField": "payment_id", "required": true},
+    {"fromTable": "processor_fees", "fromField": "payment_id", "toTable": "payments", "toField": "payment_id", "required": true}
+  ]
+}

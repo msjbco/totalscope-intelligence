@@ -1,0 +1,5 @@
+[
+  {"processor_fee_id":"fee-001","payment_id":"payment-001","amount_minor":1170,"currency_code":"USD","assessed_at":"2026-01-20T12:00:00-05:00"},
+  {"processor_fee_id":"fee-002","payment_id":"payment-003","amount_minor":2040,"currency_code":"USD","assessed_at":"2026-05-28T12:00:00-04:00"},
+  {"processor_fee_id":"fee-003","payment_id":"payment-004","amount_minor":2591,"currency_code":"USD","assessed_at":"2026-06-30T12:00:00-04:00"}
+]

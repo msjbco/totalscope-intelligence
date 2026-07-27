@@ -1,0 +1,4 @@
+[
+  {"custom_field_fact_id":"custom-001","totalscope_file_id":"TSI-1002","field_key":"carrier_review_stage","raw_value":"document_review"},
+  {"custom_field_fact_id":"custom-002","totalscope_file_id":"TSI-1005","field_key":"submission_channel","raw_value":null}
+]

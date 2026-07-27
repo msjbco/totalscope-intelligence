@@ -1,0 +1,6 @@
+[
+  {"payment_id":"payment-001","invoice_id":"invoice-001","totalscope_file_id":"TSI-1001","amount_minor":30000,"currency_code":"USD","status":"settled","settled_at":"2026-01-20T12:00:00-05:00"},
+  {"payment_id":"payment-002","invoice_id":"invoice-003","totalscope_file_id":"TSI-1003","amount_minor":0,"currency_code":"USD","status":"settled","settled_at":"2026-03-27T12:00:00-04:00"},
+  {"payment_id":"payment-003","invoice_id":"invoice-004","totalscope_file_id":"TSI-1004","amount_minor":60000,"currency_code":"USD","status":"settled","settled_at":"2026-05-28T12:00:00-04:00"},
+  {"payment_id":"payment-004","invoice_id":null,"totalscope_file_id":"TSI-1002","amount_minor":79000,"currency_code":"USD","status":"settled","settled_at":"2026-06-30T12:00:00-04:00"}
+]

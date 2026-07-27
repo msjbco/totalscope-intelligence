@@ -1,0 +1,8 @@
+[
+  {"assignment_id":"assignment-001","totalscope_file_id":"TSI-1001","user_id":"user-001","assignment_type":"totalscope_estimator","started_at":"2026-01-05T10:00:00-05:00","ended_at":null},
+  {"assignment_id":"assignment-002","totalscope_file_id":"TSI-1002","user_id":"user-002","assignment_type":"totalscope_claim_handler","started_at":"2026-02-05T09:00:00-05:00","ended_at":null},
+  {"assignment_id":"assignment-003","totalscope_file_id":"TSI-1003","user_id":"user-001","assignment_type":"totalscope_estimator","started_at":"2026-03-10T12:00:00-05:00","ended_at":null},
+  {"assignment_id":"assignment-004","totalscope_file_id":"TSI-1004","user_id":"user-002","assignment_type":"totalscope_claim_handler","started_at":"2026-04-03T09:00:00-04:00","ended_at":null},
+  {"assignment_id":"assignment-005","totalscope_file_id":"TSI-1005","user_id":"user-003","assignment_type":"totalscope_estimator","started_at":"2026-06-01T10:00:00-04:00","ended_at":null},
+  {"assignment_id":"assignment-006","totalscope_file_id":"TSI-1006","user_id":"user-002","assignment_type":"totalscope_claim_handler","started_at":"2026-06-15T09:00:00-04:00","ended_at":null}
+]

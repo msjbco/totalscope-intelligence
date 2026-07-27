@@ -1,0 +1,5 @@
+[
+  {"user_id":"user-001","display_name":"Avery Brooks","work_email":"avery@example.test","active":true,"updated_at":"2026-06-30T17:20:00-04:00"},
+  {"user_id":"user-002","display_name":"Jordan Lee","work_email":"jordan@example.test","active":true,"updated_at":"2026-06-30T17:21:00-04:00"},
+  {"user_id":"user-003","display_name":"Morgan Casey","work_email":null,"active":true,"updated_at":"2026-06-30T17:22:00-04:00"}
+]

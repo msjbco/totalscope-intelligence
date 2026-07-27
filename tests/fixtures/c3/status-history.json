@@ -1,0 +1,14 @@
+[
+  {"status_event_id":"status-001","totalscope_file_id":"TSI-1001","status":"new","effective_at":"2026-01-05T09:00:00-05:00"},
+  {"status_event_id":"status-002","totalscope_file_id":"TSI-1001","status":"completed","effective_at":"2026-01-12T16:00:00-05:00"},
+  {"status_event_id":"status-003","totalscope_file_id":"TSI-1002","status":"new","effective_at":"2026-02-01T10:00:00-05:00"},
+  {"status_event_id":"status-004","totalscope_file_id":"TSI-1002","status":"claim_handling","effective_at":"2026-02-05T09:00:00-05:00"},
+  {"status_event_id":"status-005","totalscope_file_id":"TSI-1003","status":"new","effective_at":"2026-03-10T11:30:00-05:00"},
+  {"status_event_id":"status-006","totalscope_file_id":"TSI-1003","status":"completed","effective_at":"2026-03-25T15:30:00-04:00"},
+  {"status_event_id":"status-007","totalscope_file_id":"TSI-1004","status":"new","effective_at":"2026-04-02T08:15:00-04:00"},
+  {"status_event_id":"status-008","totalscope_file_id":"TSI-1004","status":"completed_claim_handling","effective_at":"2026-05-20T13:00:00-04:00"},
+  {"status_event_id":"status-009","totalscope_file_id":"TSI-1005","status":"new","effective_at":"2026-06-01T09:45:00-04:00"},
+  {"status_event_id":"status-010","totalscope_file_id":"TSI-1005","status":"in_progress","effective_at":"2026-06-03T10:00:00-04:00"},
+  {"status_event_id":"status-011","totalscope_file_id":"TSI-1006","status":"new","effective_at":"2026-06-15T08:00:00-04:00"},
+  {"status_event_id":"status-012","totalscope_file_id":"TSI-1006","status":"in_progress","effective_at":"2026-06-15T09:00:00-04:00"}
+]

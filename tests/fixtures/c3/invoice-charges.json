@@ -1,0 +1,8 @@
+[
+  {"charge_id":"charge-001","invoice_id":"invoice-001","charge_type":"estimate_fee","amount_minor":30000,"currency_code":"USD","availability":"captured","client_billable":true,"voided":false},
+  {"charge_id":"charge-002","invoice_id":"invoice-002","charge_type":"claim_handling_fee","amount_minor":75000,"currency_code":"USD","availability":"captured","client_billable":true,"voided":false},
+  {"charge_id":"charge-003","invoice_id":"invoice-002","charge_type":"report_fee","amount_minor":4000,"currency_code":"USD","availability":"captured","client_billable":true,"voided":false},
+  {"charge_id":"charge-004","invoice_id":"invoice-003","charge_type":"estimate_fee","amount_minor":0,"currency_code":"USD","availability":"captured","client_billable":true,"voided":false},
+  {"charge_id":"charge-005","invoice_id":"invoice-004","charge_type":"claim_handling_fee","amount_minor":60000,"currency_code":"USD","availability":"captured","client_billable":true,"voided":false},
+  {"charge_id":"charge-006","invoice_id":"invoice-004","charge_type":"other","amount_minor":null,"currency_code":"USD","availability":"not_captured","client_billable":false,"voided":false}
+]

@@ -1,0 +1,8 @@
+[
+  {"financial_fact_id":"fact-001","totalscope_file_id":"TSI-1001","metric_key":"initial_rcv","amount_minor":1000000,"currency_code":"USD","availability":"captured"},
+  {"financial_fact_id":"fact-002","totalscope_file_id":"TSI-1001","metric_key":"final_rcv","amount_minor":1400000,"currency_code":"USD","availability":"captured"},
+  {"financial_fact_id":"fact-003","totalscope_file_id":"TSI-1003","metric_key":"initial_rcv","amount_minor":0,"currency_code":"USD","availability":"captured"},
+  {"financial_fact_id":"fact-004","totalscope_file_id":"TSI-1003","metric_key":"final_rcv","amount_minor":250000,"currency_code":"USD","availability":"captured"},
+  {"financial_fact_id":"fact-005","totalscope_file_id":"TSI-1005","metric_key":"initial_rcv","amount_minor":null,"currency_code":"USD","availability":"not_captured"},
+  {"financial_fact_id":"fact-006","totalscope_file_id":"TSI-1006","metric_key":"final_rcv","amount_minor":null,"currency_code":"USD","availability":"not_captured"}
+]

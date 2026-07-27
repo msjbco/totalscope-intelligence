@@ -1,0 +1,147 @@
+{
+  "contractVersion": "tsi-historical-v1",
+  "sourceSystem": "totalscope_export",
+  "datasetType": "historical_operations",
+  "businessTimezone": "America/New_York",
+  "modeSupport": ["full", "incremental"],
+  "stableFileIdField": "totalscope_file_id",
+  "tables": [
+    {
+      "name": "clients",
+      "stableKey": ["client_id"],
+      "fields": [
+        {"name": "client_id", "type": "string", "required": true},
+        {"name": "client_name", "type": "string", "required": true},
+        {"name": "active", "type": "boolean", "required": true},
+        {"name": "updated_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "branches",
+      "stableKey": ["branch_id"],
+      "fields": [
+        {"name": "branch_id", "type": "string", "required": true},
+        {"name": "client_id", "type": "string", "required": true},
+        {"name": "branch_name", "type": "string", "required": true},
+        {"name": "active", "type": "boolean", "required": true},
+        {"name": "updated_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "users",
+      "stableKey": ["user_id"],
+      "fields": [
+        {"name": "user_id", "type": "string", "required": true},
+        {"name": "display_name", "type": "string", "required": true},
+        {"name": "work_email", "type": "string", "required": false},
+        {"name": "active", "type": "boolean", "required": true},
+        {"name": "updated_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "files",
+      "stableKey": ["totalscope_file_id"],
+      "fields": [
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "client_id", "type": "string", "required": true},
+        {"name": "branch_id", "type": "string", "required": true},
+        {"name": "service_type", "type": "string", "required": true},
+        {"name": "current_status", "type": "string", "required": true},
+        {"name": "submitted_at", "type": "timestamp", "required": false},
+        {"name": "completed_at", "type": "timestamp", "required": false},
+        {"name": "carrier_name", "type": "string", "required": false},
+        {"name": "initial_rcv_minor", "type": "minor_units", "required": false},
+        {"name": "final_rcv_minor", "type": "minor_units", "required": false},
+        {"name": "financial_availability", "type": "availability", "required": true},
+        {"name": "updated_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "assignments",
+      "stableKey": ["assignment_id"],
+      "fields": [
+        {"name": "assignment_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "user_id", "type": "string", "required": true},
+        {"name": "assignment_type", "type": "string", "required": true},
+        {"name": "started_at", "type": "timestamp", "required": true},
+        {"name": "ended_at", "type": "timestamp", "required": false}
+      ]
+    },
+    {
+      "name": "status_history",
+      "stableKey": ["status_event_id"],
+      "fields": [
+        {"name": "status_event_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "status", "type": "string", "required": true},
+        {"name": "effective_at", "type": "timestamp", "required": true}
+      ]
+    },
+    {
+      "name": "notes",
+      "stableKey": ["note_id"],
+      "fields": [
+        {"name": "note_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "created_at", "type": "timestamp", "required": true},
+        {"name": "body", "type": "string", "required": false}
+      ]
+    },
+    {
+      "name": "documents",
+      "stableKey": ["document_id"],
+      "fields": [
+        {"name": "document_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "document_type", "type": "string", "required": true},
+        {"name": "filename", "type": "string", "required": true},
+        {"name": "sha256", "type": "sha256", "required": true}
+      ]
+    },
+    {
+      "name": "financial_facts",
+      "stableKey": ["financial_fact_id"],
+      "fields": [
+        {"name": "financial_fact_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "metric_key", "type": "string", "required": true},
+        {"name": "amount_minor", "type": "minor_units", "required": false},
+        {"name": "currency_code", "type": "currency", "required": true},
+        {"name": "availability", "type": "availability", "required": true}
+      ]
+    },
+    {
+      "name": "tags",
+      "stableKey": ["tag_event_id"],
+      "fields": [
+        {"name": "tag_event_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "tag", "type": "string", "required": true}
+      ]
+    },
+    {
+      "name": "custom_fields",
+      "stableKey": ["custom_field_fact_id"],
+      "fields": [
+        {"name": "custom_field_fact_id", "type": "string", "required": true},
+        {"name": "totalscope_file_id", "type": "string", "required": true},
+        {"name": "field_key", "type": "string", "required": true},
+        {"name": "raw_value", "type": "json", "required": false}
+      ]
+    }
+  ],
+  "relationships": [
+    {"fromTable": "branches", "fromField": "client_id", "toTable": "clients", "toField": "client_id", "required": true},
+    {"fromTable": "files", "fromField": "client_id", "toTable": "clients", "toField": "client_id", "required": true},
+    {"fromTable": "files", "fromField": "branch_id", "toTable": "branches", "toField": "branch_id", "required": true},
+    {"fromTable": "assignments", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "assignments", "fromField": "user_id", "toTable": "users", "toField": "user_id", "required": true},
+    {"fromTable": "status_history", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "notes", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "documents", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "financial_facts", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "tags", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true},
+    {"fromTable": "custom_fields", "fromField": "totalscope_file_id", "toTable": "files", "toField": "totalscope_file_id", "required": true}
+  ]
+}

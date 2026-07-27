@@ -1,0 +1,33 @@
+{
+  "fixtureVersion": "c3-deterministic-v1",
+  "tableCounts": {
+    "clients": 2,
+    "branches": 3,
+    "users": 3,
+    "files": 6,
+    "assignments": 6,
+    "status_history": 12,
+    "notes": 2,
+    "documents": 2,
+    "financial_facts": 6,
+    "tags": 2,
+    "custom_fields": 2,
+    "invoices": 4,
+    "invoice_charges": 6,
+    "payments": 4,
+    "refunds": 1,
+    "payment_failures": 2,
+    "disputes": 1,
+    "processor_fees": 3
+  },
+  "explicitZeroAssertions": [
+    {"table": "files", "idField": "totalscope_file_id", "id": "TSI-1003", "field": "initial_rcv_minor"},
+    {"table": "invoice_charges", "idField": "charge_id", "id": "charge-004", "field": "amount_minor"},
+    {"table": "payments", "idField": "payment_id", "id": "payment-002", "field": "amount_minor"}
+  ],
+  "missingValueAssertions": [
+    {"table": "files", "idField": "totalscope_file_id", "id": "TSI-1005", "field": "initial_rcv_minor"},
+    {"table": "invoice_charges", "idField": "charge_id", "id": "charge-006", "field": "amount_minor"},
+    {"table": "payment_failures", "idField": "failure_id", "id": "failure-002", "field": "amount_minor"}
+  ]
+}

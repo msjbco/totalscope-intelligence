@@ -1,0 +1,5 @@
+[
+  {"branch_id":"branch-001","client_id":"client-001","branch_name":"Charlotte","active":true,"updated_at":"2026-06-30T17:10:00-04:00"},
+  {"branch_id":"branch-002","client_id":"client-001","branch_name":"Raleigh","active":true,"updated_at":"2026-06-30T17:11:00-04:00"},
+  {"branch_id":"branch-003","client_id":"client-002","branch_name":"Tampa","active":true,"updated_at":"2026-06-30T17:12:00-04:00"}
+]

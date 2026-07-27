@@ -1,0 +1,3 @@
+[
+  {"refund_id":"refund-001","payment_id":"payment-003","amount_minor":10000,"currency_code":"USD","status":"succeeded","refunded_at":"2026-06-02T11:00:00-04:00"}
+]

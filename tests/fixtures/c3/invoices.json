@@ -1,0 +1,6 @@
+[
+  {"invoice_id":"invoice-001","totalscope_file_id":"TSI-1001","client_id":"client-001","invoice_date":"2026-01-13","status":"open","currency_code":"USD"},
+  {"invoice_id":"invoice-002","totalscope_file_id":"TSI-1002","client_id":"client-001","invoice_date":"2026-06-25","status":"open","currency_code":"USD"},
+  {"invoice_id":"invoice-003","totalscope_file_id":"TSI-1003","client_id":"client-001","invoice_date":"2026-03-26","status":"paid","currency_code":"USD"},
+  {"invoice_id":"invoice-004","totalscope_file_id":"TSI-1004","client_id":"client-002","invoice_date":"2026-05-21","status":"paid","currency_code":"USD"}
+]

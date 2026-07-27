@@ -1,0 +1,4 @@
+[
+  {"failure_id":"failure-001","invoice_id":"invoice-002","amount_minor":79000,"currency_code":"USD","failure_code":"card_declined","failed_at":"2026-06-26T09:00:00-04:00"},
+  {"failure_id":"failure-002","invoice_id":"invoice-002","amount_minor":null,"currency_code":"USD","failure_code":"processor_error","failed_at":"2026-06-27T09:00:00-04:00"}
+]
