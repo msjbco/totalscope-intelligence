@@ -501,6 +501,107 @@ async function promoteOperationalFixtures(config, pkg, runId) {
   };
 }
 
+async function promoteFinancialFixtures(config, pkg, operationalRunId, stripeRunId) {
+  const operational = pkg.datasets["tsi-historical-v1"];
+  const financial = pkg.datasets["stripe-periodic-v1"];
+  const operationalRecords = await rest(config, `ingestion_records?ingestion_run_id=eq.${operationalRunId}&select=id,logical_table,stable_source_key`);
+  const stripeRecords = await rest(config, `ingestion_records?ingestion_run_id=eq.${stripeRunId}&select=id,logical_table,stable_source_key`);
+  const fileIds = await rowsByStableKey(config, "operational_files", "stable_file_id");
+  const clientIds = await rowsByStableKey(config, "clients", "stable_client_id");
+
+  const financialFactSource = sourceRecordMap(operationalRecords, "financial_facts");
+  await insertIgnoringConflicts(config, "file_financial_facts", operational.financial_facts.map((row) => ({
+    stable_financial_fact_id: row.financial_fact_id,
+    operational_file_id: fileIds.get(row.totalscope_file_id),
+    metric_key: row.metric_key,
+    amount_minor: row.amount_minor,
+    currency_code: row.currency_code,
+    availability: row.availability,
+    ingestion_record_id: financialFactSource.get(row.financial_fact_id).id,
+    ingestion_run_id: operationalRunId,
+  })), ["stable_financial_fact_id"]);
+
+  const invoiceSource = sourceRecordMap(stripeRecords, "invoices");
+  await insertIgnoringConflicts(config, "billing_invoices", financial.invoices.map((row) => ({
+    stable_invoice_id: row.invoice_id,
+    operational_file_id: fileIds.get(row.totalscope_file_id),
+    client_id: clientIds.get(row.client_id),
+    invoice_date: row.invoice_date,
+    status: row.status,
+    currency_code: row.currency_code,
+    ingestion_record_id: invoiceSource.get(row.invoice_id).id,
+    ingestion_run_id: stripeRunId,
+  })), ["stable_invoice_id"]);
+  const invoiceIds = await rowsByStableKey(config, "billing_invoices", "stable_invoice_id");
+
+  const chargeSource = sourceRecordMap(stripeRecords, "invoice_charges");
+  await insertIgnoringConflicts(config, "billing_invoice_charges", financial.invoice_charges.map((row) => ({
+    stable_charge_id: row.charge_id,
+    billing_invoice_id: invoiceIds.get(row.invoice_id),
+    charge_type: row.charge_type,
+    amount_minor: row.amount_minor,
+    currency_code: row.currency_code,
+    availability: row.availability,
+    client_billable: row.client_billable,
+    voided: row.voided,
+    ingestion_record_id: chargeSource.get(row.charge_id).id,
+    ingestion_run_id: stripeRunId,
+  })), ["stable_charge_id"]);
+
+  const paymentSource = sourceRecordMap(stripeRecords, "payments");
+  await insertIgnoringConflicts(config, "payment_events", financial.payments.map((row) => ({
+    stable_payment_id: row.payment_id,
+    billing_invoice_id: row.invoice_id ? invoiceIds.get(row.invoice_id) : null,
+    operational_file_id: row.totalscope_file_id ? fileIds.get(row.totalscope_file_id) : null,
+    amount_minor: row.amount_minor,
+    currency_code: row.currency_code,
+    status: row.status,
+    settled_at: row.settled_at,
+    ingestion_record_id: paymentSource.get(row.payment_id).id,
+    ingestion_run_id: stripeRunId,
+  })), ["stable_payment_id"]);
+  const paymentIds = await rowsByStableKey(config, "payment_events", "stable_payment_id");
+
+  for (const [logicalTable, rows, target, stableColumn, stableSourceColumn, mapper] of [
+    ["refunds", financial.refunds, "refund_events", "stable_refund_id", "refund_id", (row) => ({
+      payment_event_id: paymentIds.get(row.payment_id), amount_minor: row.amount_minor, currency_code: row.currency_code,
+      status: row.status, refunded_at: row.refunded_at,
+    })],
+    ["payment_failures", financial.payment_failures, "payment_failure_events", "stable_failure_id", "failure_id", (row) => ({
+      billing_invoice_id: row.invoice_id ? invoiceIds.get(row.invoice_id) : null, amount_minor: row.amount_minor,
+      amount_availability: row.amount_minor === null ? "not_captured" : "captured", currency_code: row.currency_code,
+      failure_code: row.failure_code, failed_at: row.failed_at,
+    })],
+    ["disputes", financial.disputes, "dispute_events", "stable_dispute_id", "dispute_id", (row) => ({
+      payment_event_id: paymentIds.get(row.payment_id), amount_minor: row.amount_minor, currency_code: row.currency_code,
+      status: row.status, opened_at: row.opened_at,
+    })],
+    ["processor_fees", financial.processor_fees, "processor_fee_events", "stable_processor_fee_id", "processor_fee_id", (row) => ({
+      payment_event_id: paymentIds.get(row.payment_id), amount_minor: row.amount_minor, currency_code: row.currency_code,
+      assessed_at: row.assessed_at,
+    })],
+  ]) {
+    const sources = sourceRecordMap(stripeRecords, logicalTable);
+    await insertIgnoringConflicts(config, target, rows.map((row) => ({
+      [stableColumn]: row[stableSourceColumn],
+      ...mapper(row),
+      ingestion_record_id: sources.get(row[stableSourceColumn]).id,
+      ingestion_run_id: stripeRunId,
+    })), [stableColumn]);
+  }
+
+  return {
+    financialFacts: operational.financial_facts.length,
+    invoices: financial.invoices.length,
+    invoiceCharges: financial.invoice_charges.length,
+    payments: financial.payments.length,
+    refunds: financial.refunds.length,
+    paymentFailures: financial.payment_failures.length,
+    disputes: financial.disputes.length,
+    processorFees: financial.processor_fees.length,
+  };
+}
+
 export async function importFixtures(config) {
   const pkg = loadFixturePackage();
   const validation = validateFixturePackage(pkg);
@@ -511,8 +612,10 @@ export async function importFixtures(config) {
     results.push(await importDataset(config, pkg, version, contract, plans.find((plan) => plan.contractVersion === version)));
   }
   const operationalRun = results.find((result) => result.sourceSystem === "totalscope_export");
+  const stripeRun = results.find((result) => result.sourceSystem === "stripe_export");
   const canonical = await promoteOperationalFixtures(config, pkg, operationalRun.runId);
-  return { fixtureVersion: pkg.manifest.fixtureVersion, fixtureFingerprint: validation.fingerprint, results, canonical };
+  const financial = await promoteFinancialFixtures(config, pkg, operationalRun.runId, stripeRun.runId);
+  return { fixtureVersion: pkg.manifest.fixtureVersion, fixtureFingerprint: validation.fingerprint, results, canonical, financial };
 }
 
 export async function validateDatabase(config) {
@@ -542,6 +645,14 @@ export async function validateDatabase(config) {
     file_tags: 2,
     file_custom_field_facts: 2,
     canonical_field_lineage: 59,
+    file_financial_facts: 6,
+    billing_invoices: 4,
+    billing_invoice_charges: 6,
+    payment_events: 4,
+    refund_events: 1,
+    payment_failure_events: 2,
+    dispute_events: 1,
+    processor_fee_events: 3,
   };
   const canonicalCounts = {};
   for (const [table, expected] of Object.entries(canonicalExpected)) {
