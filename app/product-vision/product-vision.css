@@ -1,0 +1,31 @@
+/* Route-scoped meeting-room readability for the Product Vision Demo. */
+.vision-launch{padding:11px 16px;font-size:10px}
+.vision-overlay{grid-template-rows:82px minmax(0,1fr) 82px}
+.vision-header{grid-template-columns:250px 1fr 145px;padding:0 30px}
+.vision-header>div{gap:6px}.vision-header small{font-size:8px}.vision-header b{font-size:15px}
+.vision-header nav{gap:5px}.vision-header nav button,.vision-exit{font-size:9px;padding:11px 12px}
+.vision-stage{grid-template-columns:minmax(350px,.72fr) minmax(600px,1.55fr);gap:5.5vw;padding:5vh 5vw}
+.vision-meta{gap:11px}.vision-meta>span{font-size:9px}.vision-meta em{font-size:8px;padding:6px 9px}
+.vision-persona{font-size:10px!important;margin-top:24px!important}
+.vision-copy h1{font-size:clamp(44px,4.4vw,72px);margin:22px 0}
+.vision-copy h2{font-size:16px;line-height:1.55;margin-bottom:21px}
+.vision-copy>p{font-size:14px;line-height:1.75;max-width:520px}
+.vision-canvas{min-height:570px}.vision-canvas-bar{height:50px;padding:0 19px;gap:7px}
+.vision-canvas-bar>span{width:8px;height:8px}.vision-canvas-bar>b{font-size:10px}
+.vision-mock{padding:36px}
+.vision-highlight-grid{gap:14px}.vision-highlight-grid article{min-height:142px;padding:20px}
+.vision-highlight-grid small{font-size:9px}.vision-highlight-grid b{font-size:25px;margin:19px 0 7px}
+.vision-highlight-grid span{font-size:10px;line-height:1.4}.vision-highlight-grid i{height:4px}
+.grid-hero article{min-height:112px}.grid-observations article,.grid-recommendations article{min-height:100px}
+.vision-pipeline>div{height:58px;gap:18px}.vision-pipeline span{font-size:9px}.vision-pipeline b{font-size:12px}.vision-pipeline i{font-size:14px}
+.vision-pricing{gap:13px}.vision-pricing article{padding:24px;min-height:350px}
+.vision-pricing small{font-size:7px}.vision-pricing h3{font-size:24px;margin:22px 0 12px}
+.vision-pricing strong{font-size:12px;min-height:42px}.vision-pricing p{font-size:10px;line-height:1.5;padding-top:15px}
+.vision-revenue{gap:11px}.vision-revenue article{padding:21px;font-size:12px}.vision-revenue article i{height:7px;margin-top:15px}.vision-revenue article.total{font-size:23px}
+.vision-report-cover{width:350px;height:445px;padding:38px}.vision-report-cover small{font-size:8px}.vision-report-cover h3{font-size:35px}.vision-report-cover p{font-size:9px}
+.ask-orb{width:76px;height:76px;font-size:22px}.vision-ask h3{font-size:21px}.vision-ask button{margin:8px 0;padding:14px 17px;font-size:11px}.ask-input{margin-top:17px;padding:17px;font-size:11px}
+.vision-closing-flow{gap:18px}.vision-closing-flow>div{gap:18px}.vision-closing-flow strong{width:150px;height:130px;font-size:20px}.vision-closing-flow span{font-size:18px}
+.vision-footer{gap:38px;padding:0 30px}.vision-footer>p{font-size:8px;line-height:1.5;max-width:790px}
+.vision-controls{gap:13px}.vision-controls button{padding:11px 16px;font-size:10px}.vision-controls span{min-width:70px;font-size:10px}
+@media(max-width:1050px){.vision-overlay{grid-template-rows:72px minmax(0,1fr) 72px}.vision-header{grid-template-columns:1fr auto}.vision-stage{grid-template-columns:1fr;padding:28px 5vw}.vision-copy h1{font-size:48px}.vision-copy h2{font-size:15px}.vision-copy>p{font-size:13px}.vision-canvas{min-height:520px}.vision-footer>p{display:none}}
+@media(max-width:650px){.vision-launch{padding:9px}.vision-launch:after{font-size:9px}.vision-overlay{grid-template-rows:62px minmax(0,1fr) 62px}.vision-header{padding:0 14px}.vision-header>div b{font-size:11px}.vision-header small{font-size:7px}.vision-exit{font-size:8px;padding:9px}.vision-stage{padding:24px 18px;gap:24px}.vision-copy h1{font-size:38px}.vision-copy h2{font-size:14px}.vision-copy>p{font-size:12px}.vision-meta>span{font-size:8px}.vision-meta em{font-size:7px}.vision-canvas{min-height:440px}.vision-mock{padding:18px}.vision-highlight-grid article{min-height:100px;padding:16px}.vision-highlight-grid b{font-size:21px}.vision-highlight-grid span{font-size:9px}.vision-pricing article{padding:19px}.vision-controls button{padding:9px 10px;font-size:9px}.vision-controls span{min-width:50px;font-size:9px}}
