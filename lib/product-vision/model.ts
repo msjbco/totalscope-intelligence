@@ -1,0 +1,5 @@
+export type VisionStatus = "Live C3 Feature"|"Live C3 Foundation"|"Live Foundation + Future Vision"|"Live C3 Foundation + Vision Preview"|"Vision Preview"|"Illustrative Business Model"|"Future Capability"|"Product Vision";
+export type VisionSection = "Why TSI exists"|"Internal TotalScope"|"Client experience"|"Client subscriptions"|"Industry intelligence"|"Future of TSI";
+export type VisionTemplate = "hero"|"sources"|"pipeline"|"dashboard"|"financial"|"client-health"|"handlers"|"data-health"|"client-detail"|"file-detail"|"client-portal"|"active-work"|"outcomes"|"benchmarks"|"report"|"pricing"|"revenue"|"value"|"report-cover"|"market-pricing"|"products"|"observations"|"recommendations"|"ask"|"closing";
+export interface VisionScreen {id:number;section:VisionSection;title:string;persona?:string;question:string;status:VisionStatus;message:string;highlights:string[];template:VisionTemplate}
+export const PRODUCT_VISION_DISCLOSURE="Product Vision Demo — Illustrative data and conceptual functionality. Pricing, adoption, and revenue figures are examples only and have not been approved.";
