@@ -6,8 +6,7 @@ import { UnconfiguredContractorDiscoveryProvider } from "@/lib/weather/providers
 import { NWSWeatherProvider } from "@/lib/weather/providers/nws-weather-provider";
 import { parseMonitoredLocations } from "@/lib/weather/config";
 import { attachAffectedZctas } from "@/lib/weather/zcta-repository";
-import { listInternalBranchLocations } from "@/lib/weather/branch-repository";
-import { evaluateClientExposure } from "@/lib/weather/exposure";
+import { listLiveWeatherAlerts, listPersistedClientExposures, persistedWeatherProviderStatus } from "@/lib/weather/live-weather-repository";
 
 export async function getLiveWeatherIntelligence(): Promise<WeatherIntelligenceSnapshot> {
   const weather = new NWSWeatherProvider();
@@ -16,8 +15,8 @@ export async function getLiveWeatherIntelligence(): Promise<WeatherIntelligenceS
   let alerts: WeatherIntelligenceSnapshot["alerts"] = [];
   let forecasts: WeatherIntelligenceSnapshot["forecasts"] = [];
 
-  try { alerts = await weather.getActiveAlerts(); }
-  catch (error) { errors.push(error instanceof Error ? error.message : "NWS alerts are unavailable."); }
+  try { alerts = await listLiveWeatherAlerts(); }
+  catch (error) { errors.push(error instanceof Error ? `Persisted NWS alerts are unavailable: ${error.message}` : "Persisted NWS alerts are unavailable."); }
   if (alerts.length) {
     try { alerts = await attachAffectedZctas(alerts); }
     catch (error) { errors.push(error instanceof Error ? error.message : "Governed ZCTA intersection is unavailable."); }
@@ -40,21 +39,20 @@ export async function getLiveWeatherIntelligence(): Promise<WeatherIntelligenceS
     }
   }
 
-  const providerStatus = await weather.providerHealth();
+  let providerStatus: WeatherIntelligenceSnapshot["providerStatus"];
+  try { providerStatus = await persistedWeatherProviderStatus(); }
+  catch (error) { providerStatus = { provider: "nws", state: "unavailable", lastAttemptedRefresh: new Date(0).toISOString(), lastSuccessfulRefresh: null, stale: true, message: error instanceof Error ? error.message : "Governed NWS refresh status is unavailable." }; }
   if (!alerts.length && !forecasts.length) {
     providerStatus.state = "unavailable";
     providerStatus.stale = true;
     providerStatus.message = errors[0] ?? "No live weather data is available.";
   }
   const opportunities = alerts.map(classifyAlert).filter((value) => value !== null);
-  const clientExposures: WeatherIntelligenceSnapshot["clientExposures"] = [];
+  let clientExposures: WeatherIntelligenceSnapshot["clientExposures"] = [];
   try {
-    const branches = await listInternalBranchLocations();
-    for (const opportunity of opportunities) {
-      for (const branch of branches) clientExposures.push(evaluateClientExposure(opportunity, branch));
-    }
+    clientExposures = await listPersistedClientExposures(alerts.map((alert) => alert.sourceId));
   } catch (error) {
-    errors.push(error instanceof Error ? `Current-client geography unavailable: ${error.message}` : "Current-client geography unavailable.");
+    errors.push(error instanceof Error ? `Persisted current-client exposure unavailable: ${error.message}` : "Persisted current-client exposure unavailable.");
   }
   return {
     generatedAt: new Date().toISOString(),

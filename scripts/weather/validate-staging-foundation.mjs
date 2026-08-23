@@ -17,6 +17,16 @@ const password = `Weather-validation-${randomUUID()}!`;
 const email = `weather-foundation-${Date.now()}@example.invalid`;
 let userId;
 
+async function selectInChunks(table, columns, field, values, chunkSize = 100) {
+  const rows = [];
+  for (let offset = 0; offset < values.length; offset += chunkSize) {
+    const result = await service.from(table).select(columns).in(field, values.slice(offset, offset + chunkSize));
+    assert.ifError(result.error);
+    rows.push(...result.data);
+  }
+  return rows;
+}
+
 try {
   const created = await service.auth.admin.createUser({ email, password, email_confirm: true });
   assert.ifError(created.error);
@@ -49,12 +59,10 @@ try {
   }
   const clientIds = [...new Set(exposurePages.map((row) => row.client_id))];
   const branchIds = [...new Set(exposurePages.map((row) => row.branch_id))];
-  const clients = clientIds.length ? await service.from("clients").select("id,lifecycle_status,active").in("id", clientIds) : { data: [], error: null };
-  const branches = branchIds.length ? await service.from("branches").select("id,client_id,accepted_geocode_attempt_id,active").in("id", branchIds) : { data: [], error: null };
-  assert.ifError(clients.error);
-  assert.ifError(branches.error);
-  assert.equal(clients.data.every((row) => row.active && row.lifecycle_status === "current"), true, "inactive clients must be excluded");
-  const branchById = new Map(branches.data.map((row) => [row.id, row]));
+  const clients = clientIds.length ? await selectInChunks("clients", "id,lifecycle_status,active", "id", clientIds) : [];
+  const branches = branchIds.length ? await selectInChunks("branches", "id,client_id,accepted_geocode_attempt_id,active", "id", branchIds) : [];
+  assert.equal(clients.every((row) => row.active && row.lifecycle_status === "current"), true, "inactive clients must be excluded");
+  const branchById = new Map(branches.map((row) => [row.id, row]));
   assert.equal(exposurePages.every((row) => branchById.get(row.branch_id)?.client_id === row.client_id && branchById.get(row.branch_id)?.accepted_geocode_attempt_id), true, "every exposure must use an accepted same-client branch point");
   assert.equal(Object.values(exposureRefresh.data).reduce((sum, count) => sum + count, 0), exposurePages.length, "database aggregate and paginated current exposure evidence must agree");
 
@@ -96,7 +104,7 @@ try {
     zctaMatches: intersections.data.reduce((sum, row) => sum + (row.zctas?.length ?? 0), 0),
     exposureCounts: exposureRefresh.data,
     exposureRows: exposurePages.length,
-    inactiveClientExposureRows: clients.data.filter((row) => !row.active || row.lifecycle_status !== "current").length,
+    inactiveClientExposureRows: clients.filter((row) => !row.active || row.lifecycle_status !== "current").length,
     sameGovernedEventProof: { eventId: representative, zctaCount: zctaByEvent.get(representative), exposureRows: exposurePages.filter((row) => eventByOpportunity.get(row.weather_opportunity_id) === representative).length },
     dispositions: dispositionCounts,
     acceptedCoordinatePointers: acceptedBranches.count,

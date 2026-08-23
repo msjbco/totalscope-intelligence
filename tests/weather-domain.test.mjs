@@ -341,6 +341,20 @@ test("live weather code contains no fixture or demo fallback", () => {
   }
 });
 
+test("live Weather consumes persisted governed alerts and exposure evidence", () => {
+  const service = readFileSync("lib/weather/service.ts", "utf8");
+  const repository = readFileSync("lib/weather/live-weather-repository.ts", "utf8");
+  const dashboard = readFileSync("components/dashboard/live-weather-dashboard.tsx", "utf8");
+  assert.match(service, /listLiveWeatherAlerts/);
+  assert.match(service, /listPersistedClientExposures/);
+  assert.doesNotMatch(service, /getActiveAlerts\(/);
+  assert.match(repository, /weather_internal_active_alerts/);
+  assert.match(repository, /weather_client_exposures/);
+  assert.match(repository, /exposure_status=in\.\(direct,near\)/);
+  assert.match(dashboard, /View in TSI/);
+  assert.doesNotMatch(dashboard, /Known clients<\/dt><dd>Awaiting import/);
+});
+
 test("interactive map stays provider-neutral and receives only canonical application data", () => {
   const map = readFileSync("components/dashboard/weather-intelligence-map.tsx", "utf8");
   assert.match(map, /weather-svg-map/);
