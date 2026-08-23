@@ -1,0 +1,51 @@
+name: Pull request validation
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  application:
+    runs-on: ubuntu-latest
+    env:
+      TOTALSCOPE_DATA_MODE: demo
+      TOTALSCOPE_DEPLOYMENT_ENV: local
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:weather
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+
+  database-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase start
+      - run: supabase db reset --local
+      - name: Run database security probes
+        shell: bash
+        run: |
+          set -euo pipefail
+          eval "$(supabase status -o env | sed 's/^ANON_KEY=/NEXT_PUBLIC_SUPABASE_ANON_KEY=/')"
+          export SUPABASE_URL="$API_URL"
+          export TOTALSCOPE_IMPORT_TARGET="local"
+          npm run import:c3-fixtures -- --confirm-target local
+          npm run test:weather-db

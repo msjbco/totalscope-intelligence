@@ -1,0 +1,32 @@
+{
+  "contractVersion": "nws-alerts-v1",
+  "sourceSystem": "nws_api",
+  "datasetType": "active_weather_alerts",
+  "businessTimezone": "UTC",
+  "modeSupport": ["full", "incremental"],
+  "stableFileIdField": null,
+  "tables": [
+    {
+      "name": "alerts",
+      "stableKey": ["id"],
+      "fields": [
+        {"name": "id", "type": "string", "required": true},
+        {"name": "type", "type": "string", "required": true},
+        {"name": "geometry", "type": "geojson", "required": false},
+        {"name": "properties.event", "type": "string", "required": true},
+        {"name": "properties.status", "type": "string", "required": true},
+        {"name": "properties.messageType", "type": "string", "required": true},
+        {"name": "properties.severity", "type": "string", "required": false},
+        {"name": "properties.certainty", "type": "string", "required": false},
+        {"name": "properties.urgency", "type": "string", "required": false},
+        {"name": "properties.sent", "type": "timestamp", "required": true},
+        {"name": "properties.effective", "type": "timestamp", "required": true},
+        {"name": "properties.onset", "type": "timestamp", "required": false},
+        {"name": "properties.expires", "type": "timestamp", "required": true},
+        {"name": "properties.ends", "type": "timestamp", "required": false},
+        {"name": "properties.headline", "type": "string", "required": false},
+        {"name": "properties.areaDesc", "type": "string", "required": false}
+      ]
+    }
+  ]
+}

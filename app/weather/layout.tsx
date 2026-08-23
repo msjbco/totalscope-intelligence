@@ -1,2 +1,6 @@
-import { requireLiveUser } from "@/lib/auth";
-export default async function Layout({children}:{children:React.ReactNode}){await requireLiveUser();return children}
+import { requireRole } from "@/lib/auth";
+
+export default async function Layout({children}:{children:React.ReactNode}) {
+  if (process.env.TOTALSCOPE_DATA_MODE === "live") await requireRole("staging_admin");
+  return children;
+}

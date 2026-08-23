@@ -1,0 +1,4 @@
+entity_id,entity,email,mobilephone,activestatus,address_id,streetnumber,streetname,city,state,zip,user_id,namefirst,namelast,role_id,datetimecreated
+entity-100,Example Restoration Group,ops@example.invalid,(214) 555-0100,A,address-1,100,Main Street,Dallas,TX,75201,user-1,Taylor,Example,SUPERADMIN,2026-01-01T00:00:00Z
+entity-100,Example Restoration Group,ops@example.invalid,(214) 555-0100,A,address-2,200,Branch Avenue,Fort Worth,TX,76102,user-2,Jordan,Example,SUPERADMIN,2026-01-02T00:00:00Z
+entity-200,Former Example Roofing,former@example.invalid,(913) 555-0100,I,address-1,300,Archive Road,Overland Park,KS,66204,user-1,Taylor,Example,SUPERADMIN,2025-01-01T00:00:00Z

@@ -15,7 +15,7 @@ export interface Claim {
   originalRcv:number|null; settledRcv:number|null; additionalRcv:number|null; totalScopeFee:number|null;
   financialStatus:FinancialStatus; updates:ClaimUpdate[];
 }
-export interface WeatherEvent { id:string; name:string; type:"hail"|"wind"|"hurricane"|"freeze"; occurredAt:string; states:string[]; zipPrefixes:string[]; severity:"moderate"|"high"|"severe"; }
+export interface WeatherEvent { id:string; name:string; type:"hail"|"wind"|"hurricane"|"freeze"; eventStatus:"forecast"|"confirmed"; occurredAt:string; states:string[]; zipCodes:string[]; severity:"moderate"|"high"|"severe"; }
 export interface ClaimWeatherMatch { claimId:string; weatherEventId:string; confidence:number; matchReason:string; }
 export interface DemoDataset { claims:Claim[]; contractors:Contractor[]; carriers:Carrier[]; adjusters:Adjuster[]; weatherEvents:WeatherEvent[]; claimWeatherMatches:ClaimWeatherMatch[]; quarters:string[]; states:string[]; zipCodes:string[]; }
 export interface FilterState { quarter:string; startDate:string; endDate:string; contractorId:string; carrierId:string; state:string; serviceType:string; }

@@ -1,10 +1,10 @@
 # TotalScope Intelligence
 
-TotalScope Intelligence is a Next.js 15 demonstration of restoration estimating and property-claim intelligence. It combines executive metrics, claim-file exploration, operational throughput, carrier and contractor performance, and synthetic claim-to-weather opportunity matching.
+TotalScope Intelligence is a Next.js 15 restoration-estimating and property-claim intelligence platform under active development. It combines executive metrics, claim-file exploration, operational throughput, carrier and contractor performance, and an internal Weather Intelligence Beta.
 
 ## Demo-data warning
 
-**Every record and result in this repository is synthetic Demo Data.** Nothing represents an actual TotalScope result, customer, carrier, contractor, adjuster, claim, fee, or weather feed. Missing financial data is retained with one of five explicit statuses and is never converted to zero:
+**Every source-controlled record and automated-test fixture in this repository is synthetic Demo Data.** Real operational exports must remain outside Git and may enter only through a controlled, service-role importer. Missing financial data is retained with one of five explicit statuses and is never converted to zero:
 
 - `captured`
 - `not_captured`
@@ -15,6 +15,8 @@ TotalScope Intelligence is a Next.js 15 demonstration of restoration estimating 
 The dataset in `lib/demo-data.ts` deterministically produces nine source quarters of claims plus contractors, carriers, adjusters, state and ZIP geography, service and file statuses, dates, financial fields, updates, synthetic weather events, and claim-to-weather matches.
 
 ## Architecture
+
+Weather Intelligence geographic governance and versioned scoring are documented in [docs/architecture/weather-zcta-and-scoring.md](docs/architecture/weather-zcta-and-scoring.md). Census ZCTA geometry stays in PostGIS; browser payloads contain only affected identifiers.
 
 - `app/` owns App Router route composition and metadata.
 - `components/dashboard/` contains the shared responsive shell, global filter context, Claims Explorer, and domain-specific analytical views.
@@ -90,7 +92,24 @@ See [C2 staging security architecture](docs/architecture/c2-staging-security.md)
 
 - Email/password authentication is staging-ready; Enterprise SSO, MFA policy, and production authentication rollout are not implemented.
 - Demo mode is in-memory, synthetic, and explicit. Live mode requires both migrations, the Q2 import, public Supabase project values, and an authenticated account.
-- Weather events are synthetic and are not live observations or forecasts.
+- Weather remains synthetic only in explicit demo mode. Live Weather Intelligence retrieves official NWS alerts and configured point forecasts server-side, is restricted to `staging_admin`, and never falls back to fixtures. Scheduled refresh execution, operational monitoring, and a licensed contractor-discovery provider remain separate approval gates before operational rollout.
 - Exports, scheduled reports, alerts, settings persistence, integrations, and notifications are disabled placeholders.
 - Billing, production monitoring, audit logging, and data-governance controls are not implemented.
 - The demonstration does not include an AI chatbot or AI-generated business conclusions.
+
+### Internal Weather Intelligence Beta
+
+The live `/weather` route is TotalScope-internal only. Configure `NWS_USER_AGENT` and optional `WEATHER_MONITORED_LOCATIONS_JSON` as described in [Weather Intelligence architecture](docs/architecture/weather-data-foundation.md). Missing live configuration produces a visible unavailable state; it never produces fixture weather, prospects, or client exposure. The migration and CI database probe enforce admin-only RLS and composite client/branch ownership for new exposure records.
+
+### Governed company/client master import
+
+The company-export importer reconciles stable `entity_id` identities into the existing C3 client model and uses `(entity_id,address_id)` for locations. It retains immutable source provenance, review issues, field lineage, and created/updated/unchanged reconciliation totals. Real master rows and Weather client geography are restricted to `staging_admin`; contact relationships and raw ingestion data remain service-role-only.
+
+Audit a source without importing it:
+
+```powershell
+node scripts/client-data/audit-company-export.mjs "C:\secure\path\all-companies.csv"
+node scripts/client-data/import-company-export.mjs inspect --source "C:\secure\path\all-companies.csv"
+```
+
+An import additionally requires explicit local/staging target confirmation, server-only Supabase credentials, and an approved `TOTALSCOPE_CLIENT_STATUS_MAPPING_JSON`. Do not run it during deployment. See [the aggregate import-readiness checkpoint](docs/audits/totalscope-company-export-readiness.md) before authorizing any hosted operation.

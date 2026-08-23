@@ -1,0 +1,17 @@
+{
+  "sourceSystem": "totalscope_company_export",
+  "datasetType": "company_client_master",
+  "contractVersion": "totalscope-company-export-v1",
+  "ingestionModes": ["full"],
+  "stableIdentities": {
+    "client": ["entity_id"],
+    "location": ["entity_id", "address_id"],
+    "person": ["user_id"],
+    "clientContactRelationship": ["entity_id", "user_id"]
+  },
+  "requiredColumns": ["entity_id", "entity", "email", "mobilephone", "activestatus", "address_id", "streetnumber", "streetname", "city", "state", "zip", "user_id", "namefirst", "namelast", "role_id", "datetimecreated"],
+  "blockingRules": ["missing_entity_id", "missing_company_name"],
+  "warningRules": ["malformed_email", "malformed_phone", "malformed_state", "malformed_zip", "unknown_status_code"],
+  "statusPolicy": "Preserve source code. Current/inactive classification requires an explicitly approved mapping.",
+  "deletionPolicy": "Absence from a later full export never deletes or deactivates a canonical record automatically."
+}

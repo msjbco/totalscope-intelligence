@@ -73,8 +73,9 @@ test("live mode has no silent demo fallback and protected pages have server guar
   assert.doesNotMatch(read("lib/data/config.ts"),/\?\? "demo"/);
   assert.match(read("lib/data/config.ts"),/must be explicitly set/);
   for(const route of ["dashboard","claims","operations","weather","carriers","contractors","reports","settings"]){
-    assert.match(read(`app/${route}/layout.tsx`),/requireLiveUser\(\)/);
+    assert.match(read(`app/${route}/layout.tsx`),/require(?:LiveUser|Role)\(/);
   }
+  assert.match(read("app/weather/layout.tsx"),/requireRole\("staging_admin"\)/);
   assert.match(read("middleware.ts"),/updateSession/);
   assert.match(read("lib/supabase/middleware.ts"),/NextResponse\.redirect/);
 });

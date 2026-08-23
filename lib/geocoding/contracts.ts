@@ -1,0 +1,6 @@
+export type GeocodePrecision = "rooftop" | "parcel" | "interpolated_address" | "street" | "zip" | "city" | "county" | "state" | "unknown";
+export type GeocodeStatus = "matched" | "ambiguous" | "not_found" | "not_configured" | "provider_error";
+export type GeocodeRequest = { streetAddress: string | null; city: string | null; stateCode: string | null; postalCode: string | null; countryCode: "US" };
+export type GeocodeReviewStatus = "auto_accepted" | "review_required" | "rejected";
+export type GeocodeResult = { status: GeocodeStatus; latitude: number | null; longitude: number | null; precision: GeocodePrecision; providerReference: string | null; explanation: string; confidence?: number | null; providerPrecision?: string | null; matchType?: string | null; formattedAddress?: string | null; returnedCity?: string | null; returnedStateCode?: string | null; returnedPostalCode?: string | null; stateMatches?: boolean | null; postalCodeMatches?: boolean | null; reviewStatus?: GeocodeReviewStatus; reviewReason?: string | null; componentMetadata?: Record<string, unknown>; rawProviderPayload?: unknown };
+export interface GeocodingProvider { geocodeAddress(request: GeocodeRequest): Promise<GeocodeResult>; providerHealth(): Promise<{ status: "available" | "not_configured" | "unavailable"; explanation: string }>; }

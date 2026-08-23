@@ -18,7 +18,7 @@ export async function updateSession(request: NextRequest) {
     },
   });
   const { data: { user } } = await supabase.auth.getUser();
-  const protectedPath = /^\/(dashboard|claims|admin|operations|weather|carriers|contractors|reports|settings)(\/|$)/.test(request.nextUrl.pathname);
+  const protectedPath = /^\/(dashboard|claims|admin|operations|weather|carriers|contractors|reports|settings|client-dashboard)(\/|$)/.test(request.nextUrl.pathname);
   if (protectedPath && !user) {
     const signIn = request.nextUrl.clone();
     signIn.pathname = "/login";

@@ -1,0 +1,23 @@
+{
+  "contractVersion": "nws-forecast-v1",
+  "sourceSystem": "nws_api",
+  "datasetType": "point_forecast",
+  "businessTimezone": "UTC",
+  "modeSupport": ["full", "incremental"],
+  "stableFileIdField": null,
+  "tables": [{
+    "name": "forecast_periods",
+    "stableKey": ["location_id", "startTime", "endTime"],
+    "fields": [
+      {"name":"location_id","type":"string","required":true},
+      {"name":"startTime","type":"timestamp","required":true},
+      {"name":"endTime","type":"timestamp","required":true},
+      {"name":"temperature","type":"number","required":false},
+      {"name":"temperatureUnit","type":"string","required":false},
+      {"name":"windSpeed","type":"string","required":false},
+      {"name":"windDirection","type":"string","required":false},
+      {"name":"shortForecast","type":"string","required":true},
+      {"name":"probabilityOfPrecipitation.value","type":"number","required":false}
+    ]
+  }]
+}

@@ -28,11 +28,11 @@ const claims:Claim[]=Array.from({length:126},(_,i)=>{
   return {id:`clm-${String(i+1).padStart(4,"0")}`,claimNumber:`TS-${year}-${String(4100+i).padStart(5,"0")}`,sourceQuarter:quarter,contractorId:contractors[(i*3)%contractors.length].id,carrierId:carrier.id,adjusterId:adjuster.id,state:stateZips[i%stateZips.length][0],zipCode:stateZips[i%stateZips.length][1],serviceType,status,openedAt:iso(opened),closedAt:closed?iso(closed):null,originalRcv:original,settledRcv:financialUsable&&original!==null&&additional!==null?original+additional:null,additionalRcv:additional,totalScopeFee:financialUsable&&additional!==null?Math.round(additional*.075):null,financialStatus,updates:Array.from({length:1+(i%4)},(_,u)=>({at:iso(new Date(opened.getTime()+(u*8+2)*86400000)),type:u===0?"status":u%2?"note":"financial",author:u%2?"TotalScope Operations":adjuster.name,summary:["File intake completed","Estimate documentation reviewed","Carrier response recorded","Settlement position updated"][u%4]}))};
 });
 const weatherEvents:WeatherEvent[]=[
- {id:"wx-01",name:"North Texas Hail Corridor",type:"hail",occurredAt:"2025-03-14",states:["TX","OK"],zipPrefixes:["75","73"],severity:"severe"},
- {id:"wx-02",name:"Gulf Wind Event",type:"wind",occurredAt:"2025-06-22",states:["LA","FL"],zipPrefixes:["70","33"],severity:"high"},
- {id:"wx-03",name:"Front Range Hail Event",type:"hail",occurredAt:"2025-07-08",states:["CO"],zipPrefixes:["80"],severity:"high"},
- {id:"wx-04",name:"Northeast Freeze",type:"freeze",occurredAt:"2026-01-18",states:["MA"],zipPrefixes:["02"],severity:"moderate"},
- {id:"wx-05",name:"Southeast Wind Corridor",type:"wind",occurredAt:"2026-03-03",states:["GA","NC"],zipPrefixes:["30","27"],severity:"high"},
+ {id:"wx-01",name:"North Texas Hail Corridor",type:"hail",eventStatus:"confirmed",occurredAt:"2026-07-27",states:["TX","OK"],zipCodes:["75001","75201","76102","73034"],severity:"severe"},
+ {id:"wx-02",name:"Gulf Wind Event",type:"wind",eventStatus:"confirmed",occurredAt:"2026-07-24",states:["LA","FL"],zipCodes:["70001","70112","32501","32401"],severity:"high"},
+ {id:"wx-03",name:"Front Range Hail Event",type:"hail",eventStatus:"forecast",occurredAt:"2026-08-02",states:["CO"],zipCodes:["80014","80202","80521"],severity:"high"},
+ {id:"wx-04",name:"Northeast Freeze",type:"freeze",eventStatus:"confirmed",occurredAt:"2026-07-10",states:["MA"],zipCodes:["01103","01608","02108"],severity:"moderate"},
+ {id:"wx-05",name:"Southeast Wind Corridor",type:"wind",eventStatus:"forecast",occurredAt:"2026-08-04",states:["GA","NC"],zipCodes:["30060","30303","27401","28202"],severity:"high"},
 ];
-const claimWeatherMatches:ClaimWeatherMatch[]=claims.filter((_,i)=>i%3===0).map((claim,i)=>({claimId:claim.id,weatherEventId:weatherEvents[i%weatherEvents.length].id,confidence:.72+(i%6)*.045,matchReason:`State, ZIP prefix, and loss-window alignment`}));
+const claimWeatherMatches:ClaimWeatherMatch[]=claims.filter((_,i)=>i%3===0).map((claim,i)=>({claimId:claim.id,weatherEventId:weatherEvents[i%weatherEvents.length].id,confidence:.72+(i%6)*.045,matchReason:`State, ZIP-code footprint, and loss-window alignment`}));
 export const demoData:DemoDataset={claims,contractors,carriers,adjusters,weatherEvents,claimWeatherMatches,quarters,states:[...new Set(claims.map(c=>c.state))].sort(),zipCodes:[...new Set(claims.map(c=>c.zipCode))].sort()};

@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "title": "Current watches, warnings, and advisories for deterministic testing",
+  "updated": "2026-07-29T14:00:00Z",
+  "features": [
+    {
+      "id": "urn:oid:2.49.0.1.840.0.demo-warning-001",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-95.92, 38.73], [-94.41, 38.73], [-94.41, 39.42], [-95.92, 39.42], [-95.92, 38.73]]]
+      },
+      "properties": {
+        "event": "Severe Thunderstorm Warning",
+        "status": "Actual",
+        "messageType": "Alert",
+        "severity": "Severe",
+        "certainty": "Observed",
+        "urgency": "Immediate",
+        "sent": "2026-07-29T13:45:00Z",
+        "effective": "2026-07-29T13:45:00Z",
+        "onset": "2026-07-29T13:45:00Z",
+        "expires": "2026-07-29T14:45:00Z",
+        "ends": "2026-07-29T14:45:00Z",
+        "headline": "Severe Thunderstorm Warning issued for deterministic fixture counties",
+        "areaDesc": "Johnson; Jackson; Cass",
+        "web": "https://www.weather.gov/"
+      }
+    },
+    {
+      "id": "urn:oid:2.49.0.1.840.0.demo-watch-002",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-98.22, 34.91], [-95.03, 34.91], [-95.03, 36.84], [-98.22, 36.84], [-98.22, 34.91]]]
+      },
+      "properties": {
+        "event": "Tornado Watch",
+        "status": "Actual",
+        "messageType": "Alert",
+        "severity": "Extreme",
+        "certainty": "Possible",
+        "urgency": "Future",
+        "sent": "2026-07-29T12:30:00Z",
+        "effective": "2026-07-29T12:30:00Z",
+        "onset": "2026-07-29T13:00:00Z",
+        "expires": "2026-07-29T20:00:00Z",
+        "ends": null,
+        "headline": "Tornado Watch issued for deterministic fixture counties",
+        "areaDesc": "Central Oklahoma",
+        "web": "https://www.weather.gov/"
+      }
+    }
+  ]
+}
