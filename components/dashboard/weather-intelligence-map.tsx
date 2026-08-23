@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { AggregatedWeatherOpportunity, ClientExposure, WeatherForecast, WeatherLocation } from "@/lib/weather/contracts";
 import type { ForecastSignal } from "@/lib/weather/forecast-signals";
-import { buildOperationalPointFeatures, buildOpportunityMapFeatures, fitOpportunitySetViewBox, fitOpportunityViewBox, geometrySvgPath, NATIONAL_WEATHER_VIEWBOX, projectUsCoordinate, type WeatherMapViewBox } from "@/lib/weather/map-data";
+import { buildOperationalPointFeatures, buildOpportunityMapFeatures, fitOpportunitySetViewBox, fitOpportunityViewBox, geometrySvgPath, NATIONAL_WEATHER_VIEWBOX, projectUsCoordinate, type WeatherMapFeatureCollection, type WeatherMapViewBox } from "@/lib/weather/map-data";
 
 const LEVEL_COLORS = { active: "#d4473f", high: "#d4473f", elevated: "#e5b94f", monitor: "#4e9ed8" } as const;
 
@@ -17,7 +17,7 @@ export function WeatherIntelligenceMap({ opportunities, selectedId, monitoredLoc
   scopeKey: string;
   onSelect: (id: string) => void;
 }) {
-  const [states, setStates] = useState<GeoJSON.FeatureCollection<GeoJSON.Geometry> | null>(null);
+  const [states, setStates] = useState<WeatherMapFeatureCollection | null>(null);
   const [mapState, setMapState] = useState<"loading" | "ready" | "error">("loading");
   const [viewBox, setViewBox] = useState<WeatherMapViewBox>(NATIONAL_WEATHER_VIEWBOX);
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
@@ -33,7 +33,7 @@ export function WeatherIntelligenceMap({ opportunities, selectedId, monitoredLoc
     void fetch("/us-states-wgs84.geojson", { cache: "force-cache" })
       .then((response) => {
         if (!response.ok) throw new Error(`State geography request failed (${response.status}).`);
-        return response.json() as Promise<GeoJSON.FeatureCollection<GeoJSON.Geometry>>;
+        return response.json() as Promise<WeatherMapFeatureCollection>;
       })
       .then((value) => { if (active) { setStates(value); setMapState("ready"); } })
       .catch(() => { if (active) setMapState("error"); });

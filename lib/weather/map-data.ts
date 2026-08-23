@@ -1,6 +1,16 @@
-import type { AggregatedWeatherOpportunity, ClientExposure, WeatherLocation } from "@/lib/weather/contracts";
+import type { AggregatedWeatherOpportunity, ClientExposure, GeoJsonGeometry, WeatherLocation } from "@/lib/weather/contracts";
 
-export type WeatherMapFeatureCollection = GeoJSON.FeatureCollection<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>;
+export type WeatherMapFeature = {
+  id?: string | number;
+  type: "Feature";
+  geometry: GeoJsonGeometry;
+  properties: Record<string, unknown> | null;
+};
+
+export type WeatherMapFeatureCollection = {
+  type: "FeatureCollection";
+  features: WeatherMapFeature[];
+};
 
 const US_BOUNDS = { west: -125, east: -66, south: 24, north: 50 } as const;
 const US_VIEWBOX = { width: 1000, height: 560 } as const;
@@ -31,7 +41,7 @@ function ringPath(ring: number[][]): string {
   }).join(" ") + " Z";
 }
 
-export function geometrySvgPath(geometry: GeoJSON.Geometry): string | null {
+export function geometrySvgPath(geometry: GeoJsonGeometry): string | null {
   if (geometry.type === "Polygon") return geometry.coordinates.map(ringPath).join(" ");
   if (geometry.type === "MultiPolygon") return geometry.coordinates.flatMap((polygon) => polygon.map(ringPath)).join(" ");
   return null;
@@ -71,7 +81,7 @@ export function buildOpportunityMapFeatures(opportunities: AggregatedWeatherOppo
     type: "FeatureCollection",
     features: opportunities.flatMap((opportunity) => opportunity.sourceAlerts.flatMap((alert) => alert.geometry ? [{
       type: "Feature" as const,
-      geometry: alert.geometry as GeoJSON.Geometry,
+      geometry: alert.geometry,
       properties: { opportunityId: opportunity.id, level: opportunity.level, title: opportunity.title },
     }] : [])),
   };
@@ -81,8 +91,8 @@ export function buildOperationalPointFeatures(locations: WeatherLocation[], expo
   return {
     type: "FeatureCollection",
     features: [
-      ...locations.map((location) => ({ type: "Feature" as const, geometry: { type: "Point" as const, coordinates: [location.longitude, location.latitude] }, properties: { kind: "monitored", label: location.name } })),
-      ...exposures.flatMap((exposure) => exposure.latitude == null || exposure.longitude == null ? [] : [{ type: "Feature" as const, geometry: { type: "Point" as const, coordinates: [exposure.longitude, exposure.latitude] }, properties: { kind: "client", label: `${exposure.clientName} · ${exposure.branchName}` } }]),
+      ...locations.map((location) => ({ type: "Feature" as const, geometry: { type: "Point" as const, coordinates: [location.longitude, location.latitude] as [number, number] }, properties: { kind: "monitored", label: location.name } })),
+      ...exposures.flatMap((exposure) => exposure.latitude == null || exposure.longitude == null ? [] : [{ type: "Feature" as const, geometry: { type: "Point" as const, coordinates: [exposure.longitude, exposure.latitude] as [number, number] }, properties: { kind: "client", label: `${exposure.clientName} · ${exposure.branchName}` } }]),
     ],
   };
 }
