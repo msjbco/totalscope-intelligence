@@ -8,7 +8,7 @@ import { liveClients } from "@/lib/operations/live-client-repository";
 export default async function ClientsPage() {
   if (getDataMode() === "live") {
     const clients = await liveClients();
-    return <DashboardShell title="Client Operations" eyebrow="GOVERNED CLIENT MASTER"><PageNav/>
+    return <DashboardShell title="Client Operations" eyebrow="GOVERNED CLIENT MASTER" mode="live" showFilters={false}><PageNav/>
       <div className="operations-section-heading"><div><small>INTERNAL CLIENT DIRECTORY</small><h2>Authoritative companies and locations</h2></div><span>Restricted to TotalScope administrators</span></div>
       <OperationsTable labels={["Client","Locations","Lifecycle","Source status","Geocoding"]}>
         {clients.map((client) => <tr key={client.id}><th scope="row"><Link href={`/operations/clients/${client.id}`}>{client.displayName}</Link></th><td>{client.locations.length}</td><td>{client.lifecycleStatus}</td><td>{client.sourceStatusCode ?? "Unavailable"}</td><td>{client.locations.filter((location) => location.geocodingStatus === "matched").length} of {client.locations.length} matched</td></tr>)}

@@ -99,6 +99,7 @@ test("future prospect contracts preserve current, inactive, deleted, and unknown
 
 test("live client routes are internal, canonical, and do not use demo fallback", () => {
   const layout = readFileSync("app/operations/clients/layout.tsx", "utf8");
+  const directory = readFileSync("app/operations/clients/page.tsx", "utf8");
   const profile = readFileSync("app/operations/clients/[clientId]/page.tsx", "utf8");
   const weather = readFileSync("components/dashboard/live-weather-dashboard.tsx", "utf8");
   const repository = readFileSync("lib/operations/live-client-repository.ts", "utf8");
@@ -108,6 +109,8 @@ test("live client routes are internal, canonical, and do not use demo fallback",
   assert.doesNotMatch(repository, /service.role|demo-repository/i);
   assert.match(profile, /liveClient\(clientId\)/);
   assert.match(profile, /if \(!client\) notFound\(\)/);
+  assert.match(directory, /mode="live" showFilters=\{false\}/);
+  assert.match(profile, /mode="live" showFilters=\{false\}/);
 });
 
 test("exposure requires defensible location precision", async () => {

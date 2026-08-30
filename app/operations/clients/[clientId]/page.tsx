@@ -11,7 +11,7 @@ export default async function ClientPage({ params }: { params: Promise<{ clientI
   if (getDataMode() === "live") {
     const client = await liveClient(clientId);
     if (!client) notFound();
-    return <DashboardShell title={client.displayName} eyebrow="GOVERNED CLIENT PROFILE"><PageNav/>
+    return <DashboardShell title={client.displayName} eyebrow="GOVERNED CLIENT PROFILE" mode="live" showFilters={false}><PageNav/>
       <div className="operations-summary-strip"><div><small>Locations</small><strong>{client.locations.length}</strong></div><div><small>Lifecycle</small><strong>{client.lifecycleStatus}</strong></div><div><small>Source status</small><strong>{client.sourceStatusCode ?? "Unavailable"}</strong></div><div><small>Geocoded</small><strong>{client.locations.filter((location) => location.geocodingStatus === "matched").length}</strong></div></div>
       <OperationsTable labels={["Location","Address","Precision","Geocoding"]}>
         {client.locations.map((location) => <tr key={location.id}><th scope="row">{location.displayName}</th><td>{[location.streetAddress, location.city, location.stateCode, location.postalCode].filter(Boolean).join(", ") || "Unavailable"}</td><td>{location.locationPrecision.replaceAll("_", " ")}</td><td>{location.geocodingStatus.replaceAll("_", " ")}</td></tr>)}
