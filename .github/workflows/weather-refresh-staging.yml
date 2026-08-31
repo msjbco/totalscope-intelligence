@@ -1,9 +1,9 @@
 name: Governed NWS staging refresh
 
-# Manual-only recognition stub. The recurring 30-minute schedule remains on the
-# feature branch until a separate activation approval.
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: read
