@@ -104,7 +104,9 @@ test("live client routes are internal, canonical, and do not use demo fallback",
   const weather = readFileSync("components/dashboard/live-weather-dashboard.tsx", "utf8");
   const repository = readFileSync("lib/operations/live-client-repository.ts", "utf8");
   assert.match(layout, /requireRole\("staging_admin"\)/);
+  assert.match(weather, /import Link from "next\/link"/);
   assert.match(weather, /operations\/clients\/\$\{exposure\.clientId\}/);
+  assert.doesNotMatch(weather, /totalscope\.com|View TS profile|legacy/i);
   assert.match(repository, /supabaseRest/);
   assert.doesNotMatch(repository, /service.role|demo-repository/i);
   assert.match(profile, /liveClient\(clientId\)/);

@@ -355,6 +355,13 @@ test("live Weather consumes persisted governed alerts and exposure evidence", ()
   assert.doesNotMatch(dashboard, /Known clients<\/dt><dd>Awaiting import/);
 });
 
+test("governed Weather clients link only to canonical internal TSI profiles", () => {
+  const dashboard = readFileSync("components/dashboard/live-weather-dashboard.tsx", "utf8");
+  assert.match(dashboard, /import Link from "next\/link"/);
+  assert.match(dashboard, /<Link href=\{`\/operations\/clients\/\$\{exposure\.clientId\}`\}>View in TSI<\/Link>/);
+  assert.doesNotMatch(dashboard, /totalscope\.com|View TS profile|legacy/i);
+});
+
 test("interactive map stays provider-neutral and receives only canonical application data", () => {
   const map = readFileSync("components/dashboard/weather-intelligence-map.tsx", "utf8");
   assert.match(map, /weather-svg-map/);
