@@ -24,6 +24,7 @@
     "test:weather": "node --test tests/weather-*.test.mjs",
     "test:weather-db": "node tests/weather-database-security.mjs",
     "test:weather-hosted": "node tests/weather-hosted-security.mjs --confirm-staging",
+    "test:weather-refresh-db": "node tests/weather-refresh-database.mjs",
     "test:weather-zcta-db": "node tests/weather-zcta-database.mjs",
     "test:client-data": "node --test tests/client-company-import.test.mjs",
     "test:client-db": "node tests/client-company-database.mjs",
@@ -31,6 +32,7 @@
     "test:geocoding-db": "node tests/client-geocoding-database.mjs",
     "trial:geocodio": "node scripts/geocoding/run-geocodio-trial.mjs",
     "refresh:nws-staging": "node scripts/weather/refresh-nws-staging.mjs",
+    "validate:nws-refresh-staging": "node scripts/weather/validate-refresh-staging.mjs",
     "import:census-zctas": "node scripts/weather/import-census-zctas.mjs all",
     "validate:ci": "npm test && npm run typecheck && npm run lint && npm run build"
   },

@@ -1,0 +1,36 @@
+name: Governed NWS staging refresh
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: totalscope-nws-staging-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    environment: staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      TOTALSCOPE_IMPORT_TARGET: staging
+      TOTALSCOPE_IMPORT_PROJECT_REF: ygeahqczlrwaadvlsiew
+      SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.STAGING_SUPABASE_SERVICE_ROLE_KEY }}
+      NWS_USER_AGENT: ${{ secrets.NWS_USER_AGENT }}
+      WEATHER_REFRESH_TRIGGER: ${{ github.event_name }}
+      WEATHER_REFRESH_HOLDER: github-actions:${{ github.run_id }}:${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Refresh official NWS alerts
+        run: npm run refresh:nws-staging -- --confirm-staging
