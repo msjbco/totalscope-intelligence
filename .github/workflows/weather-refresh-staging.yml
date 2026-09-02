@@ -27,6 +27,9 @@ jobs:
       WEATHER_REFRESH_HOLDER: github-actions:${{ github.run_id }}:${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Pin the reviewed staging runtime; main intentionally carries only the scheduler definition.
+          ref: 45b0722e9bfd081562b5542c31ea139a53723b1d
       - uses: actions/setup-node@v4
         with:
           node-version: 22
