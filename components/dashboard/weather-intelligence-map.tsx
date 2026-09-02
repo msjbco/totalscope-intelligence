@@ -105,10 +105,11 @@ export function WeatherIntelligenceMap({ opportunities, selectedId, monitoredLoc
         const id = String(feature.properties?.opportunityId ?? "");
         const level = String(feature.properties?.level ?? "monitor") as keyof typeof LEVEL_COLORS;
         const selected = id === selectedId;
-        const label = `Select ${String(feature.properties?.title ?? "weather opportunity")}`;
+        const sourceReference = feature.properties?.representation === "source-area-reference";
+        const label = `Select ${String(feature.properties?.title ?? "weather opportunity")}${sourceReference ? " — state reference from official source area, not an NWS polygon" : ""}`;
         if (feature.geometry.type === "Point") {
           const [cx, cy] = projectUsCoordinate(feature.geometry.coordinates);
-          return <circle key={`${id}-${index}`} cx={cx} cy={cy} r={selected ? 14 : 9} fill={LEVEL_COLORS[level]} className={selected ? "selected" : selectedId ? "dimmed" : ""} role="button" tabIndex={0} aria-label={label} onClick={() => onSelect(id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") onSelect(id); }} />;
+          return <circle key={`${id}-${index}`} cx={cx} cy={cy} r={selected ? 14 : 9} fill={sourceReference ? "none" : LEVEL_COLORS[level]} stroke={sourceReference ? LEVEL_COLORS[level] : undefined} className={`${sourceReference ? "source-reference " : ""}${selected ? "selected" : selectedId ? "dimmed" : ""}`} role="button" tabIndex={0} aria-label={label} onClick={() => onSelect(id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") onSelect(id); }}><title>{sourceReference ? `${String(feature.properties?.stateCode)} source-area reference · not an NWS-issued polygon` : String(feature.properties?.title ?? "Weather opportunity")}</title></circle>;
         }
         const path = geometrySvgPath(feature.geometry);
         return path ? <path key={`${id}-${index}`} d={path} fill={LEVEL_COLORS[level]} stroke={LEVEL_COLORS[level]} className={selected ? "selected" : selectedId ? "dimmed" : ""} role="button" tabIndex={0} aria-label={label} onClick={() => onSelect(id)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") onSelect(id); }} /> : null;
@@ -128,6 +129,7 @@ export function WeatherIntelligenceMap({ opportunities, selectedId, monitoredLoc
       <span><i style={{ background: LEVEL_COLORS.active }} />High Weather Opportunity</span>
       <span><i style={{ background: LEVEL_COLORS.elevated }} />Moderate Weather Opportunity</span>
       <span><i style={{ background: LEVEL_COLORS.monitor }} />Low Weather Opportunity</span>
+      <span><i className="source-reference" />Source-area reference · not an NWS polygon</span>
       <span><i className="monitored" />Monitored Forecast Location</span>
     </div>
     {selectedLocation && <aside className="weather-monitored-popover" aria-live="polite"><button type="button" aria-label="Close monitored location" onClick={() => setSelectedLocationId(null)}>×</button><small>MONITORED FORECAST LOCATION</small><strong>{selectedLocation.name}</strong><span>Last forecast update: {selectedLocationForecast ? new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(selectedLocationForecast.retrievedAt)) : "Unavailable"}</span><p>{selectedLocationSignal ? `${selectedLocationSignal.eventType}: ${selectedLocationSignal.rationale}` : "No significant weather to watch."}</p></aside>}

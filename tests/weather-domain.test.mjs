@@ -208,6 +208,16 @@ test("normalized event taxonomy supports every approved user-facing category", (
   for (const [event, expected] of cases) assert.equal(intelligence.normalizeWeatherEvent(alert({ event, description: null })), expected);
 });
 
+test("event filter keeps Hail explicitly selectable and matches governed hail opportunities", () => {
+  const contracts = readFileSync("lib/weather/contracts.ts", "utf8");
+  const dashboard = readFileSync("components/dashboard/live-weather-dashboard.tsx", "utf8");
+  assert.match(contracts, /NORMALIZED_WEATHER_EVENT_TYPES = \["Hail"/);
+  assert.match(dashboard, /NORMALIZED_WEATHER_EVENT_TYPES\.map/);
+  assert.match(dashboard, /item\.normalizedEventType === eventFilter/);
+  const hail = aggregation.aggregateWeatherOpportunities([alert({ event: "Severe Thunderstorm Warning", description: "Golf ball size hail up to 1.75 inches is expected." })], "2026-08-10T12:00:00Z", 24);
+  assert.equal(hail.filter((item) => item.normalizedEventType === "Hail").length, 1);
+});
+
 test("exact NWS product remains preserved beside normalized category", () => {
   const original = "Severe Thunderstorm Warning";
   const result = aggregation.aggregateWeatherOpportunities([alert({ event: original, description: "Damaging winds to 65 mph." })], "2026-08-10T12:00:00Z", 24)[0];
@@ -311,6 +321,24 @@ test("map input preserves official geometry and never fabricates missing geometr
   assert.equal(features.features.length, 1);
   assert.equal(features.features[0].properties.opportunityId, withGeometry.id);
   assert.equal(mapData.opportunityBounds(withoutGeometry), null);
+});
+
+test("map distinguishes official geometry, governed state references, and insufficient evidence", () => {
+  const official = aggregation.aggregateWeatherOpportunities([alert({ sourceId: "official", areaDescription: "Powell, MT" })], "2026-08-10T12:00:00Z", 24)[0];
+  const montana = aggregation.aggregateWeatherOpportunities([alert({ sourceId: "montana", geometry: null, areaDescription: "Powell, MT" })], "2026-08-10T12:00:00Z", 24)[0];
+  const california = aggregation.aggregateWeatherOpportunities([alert({ sourceId: "california", geometry: null, areaDescription: "Coastal waters from Pt. St. George to Cape Mendocino CA out 10 nm" })], "2026-08-10T12:00:00Z", 24)[0];
+  const unknown = aggregation.aggregateWeatherOpportunities([alert({ sourceId: "unknown", geometry: null, areaDescription: "Northern Coastal Waters" })], "2026-08-10T12:00:00Z", 24)[0];
+  assert.equal(mapData.opportunityMapRepresentation(official), "official-nws-geometry");
+  assert.equal(mapData.opportunityMapRepresentation(montana), "source-area-reference");
+  assert.equal(mapData.opportunityMapRepresentation(unknown), "unavailable");
+  const features = mapData.buildOpportunityMapFeatures([official, montana, california, unknown]);
+  assert.equal(features.features.filter((feature) => feature.properties.representation === "official-nws-geometry").length, 1);
+  assert.deepEqual(features.features.filter((feature) => feature.properties.representation === "source-area-reference").map((feature) => feature.properties.stateCode).sort(), ["CA", "MT"]);
+  assert.equal(features.features.some((feature) => feature.properties.opportunityId === unknown.id), false);
+  assert.ok(mapData.fitOpportunityViewBox(montana).width < mapData.NATIONAL_WEATHER_VIEWBOX.width);
+  const map = readFileSync("components/dashboard/weather-intelligence-map.tsx", "utf8");
+  assert.match(map, /not an NWS polygon/);
+  assert.match(map, /source-reference/);
 });
 
 test("contractor normalization preserves missing contact data rather than inventing it", () => {

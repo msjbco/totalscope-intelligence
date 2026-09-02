@@ -76,7 +76,8 @@ export type WeatherProviderStatus = {
 };
 
 export type OpportunityLevel = "monitor" | "elevated" | "high" | "active";
-export type NormalizedWeatherEventType = "Hail" | "Damaging / Extreme Wind" | "Severe Convective" | "Tornado" | "Tropical / Hurricane" | "Flooding" | "Winter / Ice" | "Other";
+export const NORMALIZED_WEATHER_EVENT_TYPES = ["Hail", "Damaging / Extreme Wind", "Severe Convective", "Tornado", "Tropical / Hurricane", "Flooding", "Winter / Ice", "Other"] as const;
+export type NormalizedWeatherEventType = (typeof NORMALIZED_WEATHER_EVENT_TYPES)[number];
 export type WeatherEvidence = { hailSupported: boolean; hailSizeInches: number | null; damagingWindSupported: boolean; maximumWindMph: number | null };
 export type WeatherSeverityAssessment = { score: number; label: "Minor" | "Moderate" | "Severe" | "Extreme"; sourceSeverity: string | null };
 export type WeatherOpportunityScoreComponent = { key: string; label: string; points: number; source: "event" | "evidence" | "certainty" | "urgency" };
